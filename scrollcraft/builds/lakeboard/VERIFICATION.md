@@ -43,3 +43,18 @@ Changes from inspection: scaled the assembly by available viewport height so car
 ## Scope and limits
 
 This verifies the public static showcase, not LakeBoard's backend, user permissions, warehouse query correctness or mobile native-app compatibility. No Lighthouse performance score, pixel-perfect cross-browser guarantee, screen-reader audit or independent savings benchmark is claimed. The site has no Databricks connection or secrets.
+
+## 18 November cost/governance update
+
+- Added Azure Australia East USD price evidence, queried from Microsoft's public Retail Prices API. Independently selected Azure Premium / Australia East on the official Databricks Apps pricing page, which displayed $1.00/DBU.
+- Added `npm test` with five domain checks: captured rates, PAYG annualization versus reservation term pricing, capacity deltas, the 50-to-1 hosting example, and 1/100-dashboard boundaries plus invalid counts. All passed. Static checks and build passed after the changes.
+- The public model holds existing warehouse/data-platform spend constant on both sides, per user clarification. It adjusts potential savings only for changes in operating costs.
+- Tested the new desktop sections at 1280 × 720 and phones at 390 × 844 / 360 × 640. No page-level horizontal overflow; the Fabric table and identity routes fit the phone widths.
+- Keyboard-operated the dashboard-count slider at 1, 50, 51 and 100. Observed $0 saving at 1, $214,620 at 50 and $438,000 standalone hosting at 100. Shared-instance cost stays $4,380/year.
+- Opened and closed the sources/method disclosure. Added a page-level layout event so following reveal positions are recalculated after its height changes.
+- Tested the reduced-motion control again; the assembly is relative and the cost values remain available.
+- Opened the new refresh crop in the image dialog on desktop and phone; confirmed the source image is 378 × 229. Escape closes it. No generated UI or altered text.
+- Browser console inspection returned no warnings or errors in the tested local update.
+- Additional evidence: `evidence/costs-desktop.jpg`. Earlier screenshot evidence and the initial asset-size figure above describe the initial release; the updated image assets total about 674 KiB.
+
+Sizing/department extension: six cost-model tests now pass, including Large ($8,760/year), conditional XLarge ($26,280/year) and four Medium department apps ($17,520/year). The department-to-UC diagram and sizing table were inspected at 1280 × 720 and 360 × 640; both fit without document overflow. `evidence/departments-desktop.jpg` records the deployment option. The headline/description now allow one team portal or separate department portals. XLarge's regional availability remains explicitly unverified, rather than implied by its price.
