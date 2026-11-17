@@ -4,7 +4,7 @@ A scroll-driven product tour for [LakeBoard](https://github.com/DoneelM/LakeBoar
 
 **[Visit the website](https://doneelm.github.io/LakeBoard_website/)**
 
-The showcase uses actual dashboard screenshots, an assembly interaction explaining the shared host, a seven-view gallery, a sourced 50-dashboard cost model, query-identity and cache governance detail, refresh and mobile evidence, and an inspectable authoring contract. It is a static site; it does not connect to a Databricks workspace or expose account details.
+The showcase uses actual dashboard screenshots, an assembly interaction explaining the shared host, a seven-view gallery, a sourced 50-dashboard cost model with 24/7 and business-hours comparisons, query-identity and cache governance detail, refresh and mobile evidence, and an inspectable authoring contract. It is a static site; it does not connect to a Databricks workspace or expose account details.
 
 ## Local development
 
@@ -23,7 +23,7 @@ Open the printed URL, which includes the GitHub Pages project path. After editin
 
 This public repository uses free GitHub Pages. `.github/workflows/pages.yml` checks and builds pull requests, then deploys pushes to `main` using the Pages artifact workflow. In repository Settings → Pages, the source is **GitHub Actions**. Subsequent updates should use a feature branch and pull request.
 
-All asset paths are relative. There is no framework, dependency install, external font service, analytics or backend. The public site exposes only the static files in `src/`.
+All asset paths are relative. There is no framework, dependency install, external font service, analytics or backend. Fonts are self-hosted. The dark/cyan visual identity follows the creator’s [aiagents.nz](https://aiagents.nz/) portfolio. The public site exposes only the static files in `src/`.
 
 ## Design and verification
 

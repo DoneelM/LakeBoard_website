@@ -51,8 +51,8 @@
     opener = event.currentTarget;
     const img = opener.querySelector('img');
     $('#capture-title').textContent = opener.dataset.enlarge || $('#gallery-name').textContent;
-    $('#dialog-image').src = img.src;
-    $('#dialog-image').alt = img.alt;
+    $('#dialog-image').src = img?.src || opener.href;
+    $('#dialog-image').alt = img?.alt || opener.dataset.enlarge || 'LakeBoard product capture';
     document.body.classList.add('dialog-open');
     dialog.showModal();
   }

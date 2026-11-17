@@ -58,3 +58,20 @@ This verifies the public static showcase, not LakeBoard's backend, user permissi
 - Additional evidence: `evidence/costs-desktop.jpg`. Earlier screenshot evidence and the initial asset-size figure above describe the initial release; the updated image assets total about 674 KiB.
 
 Sizing/department extension: six cost-model tests now pass, including Large ($8,760/year), conditional XLarge ($26,280/year) and four Medium department apps ($17,520/year). The department-to-UC diagram and sizing table were inspected at 1280 × 720 and 360 × 640; both fit without document overflow. `evidence/departments-desktop.jpg` records the deployment option. The headline/description now allow one team portal or separate department portals. XLarge's regional availability remains explicitly unverified, rather than implied by its price.
+
+
+## Portfolio styling, business hours and fresh capture revision
+
+18 November 2026. This amendment supersedes the initial paper/navy colour direction and the earlier refresh crop above; earlier evidence remains historical.
+
+- Matched aiagents.nz's consistent dark canvas (#06080C), cyan/teal highlights, Plus Jakarta Sans headings and Inter body type. Both fonts are self-hosted, with OFL licences. Every main section uses the dark canvas; actual product captures keep the app's real colours.
+- Replaced the refresh asset with freshly captured live UI, excluding the account email and background charts. The primary 381 × 301 capture shows the expanded source table and the no-new-data message; the alternate 381 × 233 capture shows the panel heading and first dataset. The primary displays at native width on desktop and fits smaller screens. These are CSS-pixel captures, not verified high-DPI assets. Accessible page prose explains the same example.
+- Added 24/7/business-hours selection, applying 2,600 planning hours to both app-hosting alternatives. Documented production start/stop Jobs and failure-safe dev/test cleanup as operating patterns; no live Databricks schedule or app state was changed.
+- Tested at 1280 × 720, 390 × 844 and 360 × 640 with no page overflow. The 360px headline now takes two lines. Matching fonts loaded successfully. Increased small-phone business-table headers and estimate notes.
+- Browser-selected the business schedule: 50 separate Medium apps $65,000/year, one shared Medium $1,300/year, difference $63,700 and $26/dashboard. Fabric capacity figures stay unchanged. Eight domain tests cover pricing, capacities, sizing and both schedules.
+- Rechecked all seven gallery choices and four file choices. Each gallery view has one selected choice. Gallery and both new refresh image links open dialogs; Escape closes and restores opener focus. Fixed the new text-only source-image link to use its href when it has no nested image.
+- Reduced-motion control removes the assembly pin; stage is relative. Copy action reports success (cross-app clipboard paste was not independently checked). Final local browser console returned no warnings or errors.
+- Independent sub-agent judged rendered desktop/phone views and source: first 8.0/10, then **8.4/10** after compact headline, readability and evidence corrections. It did not independently drive a browser or verify high-DPI capture/animation smoothness. Optional remaining polish: shorter pricing notes and larger tertiary microcopy.
+- Updated the social preview to the dark hero. The vendor Scroll Craft engine is unchanged.
+
+Current evidence: `evidence/portfolio-desktop-hero.jpg`, `portfolio-desktop-calculator.jpg`, `portfolio-desktop-refresh.jpg`, `portfolio-mobile-360.jpg`, `portfolio-mobile-calculator.jpg`.

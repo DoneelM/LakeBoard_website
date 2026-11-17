@@ -57,7 +57,7 @@ Official context: [Databricks Apps authorization](https://learn.microsoft.com/en
 
 ## Freshness: decide whether refreshing is useful
 
-The tightened real screenshot contains only the first complete dataset block, including its expanded source-table list. It was captured directly from the existing product screenshot through the browser, with no text or UI generated or altered. Original crop: 510 × 556; new crop: 378 × 229.
+The current proof was freshly captured from the running City Trips app on 18 November 2026. `refresh-decision.jpg` (381 × 301) contains an expanded source-table list and the app’s explicit message that refreshing will not show new data. `refresh-sources.jpg` (381 × 233) separately shows the panel heading and first dataset. The browser captured only those UI regions, excluding the account email and background charts. Neither capture contains generated or altered UI text. The earlier re-cropped screenshot was replaced.
 
 The panel exposes fetch time, expiry, cache scope, source notes and underlying table names/change metadata for datasets the viewer may open. Metadata lookups use the app SP and UC APIs, not another warehouse query. It is source-table visibility, not a claim of a complete interactive UC lineage explorer.
 
@@ -85,3 +85,28 @@ A dedicated Medium app for a lightweight report can leave memory/CPU headroom un
 The shared host need not be organisation-wide. Separate LakeBoard deployments for Sales, Marketing, Finance and Operations can each contain many dashboards, with independent sizing, deployments and caches, while referencing common governed UC data and metric definitions. Four Medium department apps cost $17,520/year in app compute under the same assumptions (a $201,480 app-hosting difference versus 50 Medium apps).
 
 Every Databricks app has its own service principal; separate apps do not automatically share its grants or cached results. UC policies follow the querying identity: the viewer in user mode, or that department app's explicitly granted SP in app mode. Configure the deployed dashboard folders, audience groups and app resources for each portal. This is a deployment pattern, not an automatic department-partitioning feature. One portal with department audience gates remains another option.
+
+
+## Business-hours operation and dev/test cleanup
+
+The business-hours option is a **52-week planning estimate**, not a claim about the exact weekdays in a particular calendar year:
+
+- 08:00–18:00, Monday–Friday = 10 hours × 5 days = 50 hours/week.
+- 50 × 52 = 2,600 estimated operating hours/year. Public holidays are not deducted.
+- Compared with 8,760 hours of 24/7 operation, the same instance has about **70.3% less app-hosting cost**.
+
+| Medium instances | 24/7 annual app compute | Business-hours estimate | Scheduling reduction |
+| --- | ---: | ---: | ---: |
+| 1 shared app | $4,380 | $1,300 | $3,080 |
+| 4 department apps | $17,520 | $5,200 | $12,320 |
+| 50 separate apps | $219,000 | $65,000 | $154,000 |
+
+Large would be $2,600/year and XLarge $7,800/year under the same hours and rate (XLarge remains subject to regional availability). The interactive calculator applies the selected operating hours to **both** the separate and shared alternatives. For 50 dashboards on a shared Medium instance, business hours gives $1,300 versus $65,000 for 50 Medium instances on that same schedule: a $63,700 consolidation difference. The 98% consolidation difference and the 70.3% scheduling difference describe separate comparisons and must not be added together as percentages.
+
+Use two independently scheduled Databricks Jobs, whose task calls the Apps start or stop API. An example Quartz schedule is `0 0 8 ? * MON-FRI` for start and `0 0 18 ? * MON-FRI` for stop, using `Australia/Sydney` for this Australia East scenario. Configure the task's run-as identity with permission to manage the target app. Verify the resulting running/stopped state and report/retry failures. The start Job can be scheduled earlier if the app must be ready at 08:00; those extra minutes add cost.
+
+Scheduling is an operating pattern to configure in the Databricks workspace, not a live schedule installed by this website update. Apps are unavailable while stopped, and stopping clears LakeBoard's in-memory cache. On restart, the app and caches need time to become ready. Job scheduling/stop delays, manual or on-demand out-of-hours restarts and Jobs' own execution charges are outside the simple runtime figure. Existing warehouse spend remains common to the baseline; additional cache-refill/query work is an incremental usage difference to measure.
+
+For **dev and test**, use `start → run checks/tests → cleanup stop`. In a Lakeflow Job, use an appropriate `ALL_DONE` cleanup dependency; in GitHub Actions, an `if: always()` finalizer; in Python or another runner, an equivalent `finally` path. A failing test should still lead to a stop attempt. Verify completion and alert if shutdown fails; a cleanup attempt is not proof that compute stopped. Current LakeBoard example GitHub and Azure DevOps pipelines already stop dev/test after deployment; an end-to-end test stage should precede that finalizer. There is no assumed dev/test run duration: Medium app compute is $0.50 multiplied by actual running hours per instance.
+
+Primary references: [Apps billing](https://learn.microsoft.com/en-us/azure/databricks/dev-tools/databricks-apps/), [Job schedules](https://learn.microsoft.com/en-us/azure/databricks/jobs/scheduled), [Start API](https://docs.databricks.com/api/apps/v1/start-app), [Stop API](https://docs.databricks.com/api/apps/v1/stop-app), [All done dependencies](https://learn.microsoft.com/en-us/azure/databricks/jobs/run-if), [LakeBoard deploy finalizer](https://github.com/DoneelM/LakeBoard/blob/main/.github/workflows/deploy.yml).
