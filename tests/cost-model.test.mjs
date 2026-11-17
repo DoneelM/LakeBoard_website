@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { PRICING, APP_SIZES, appAnnual, fabricAnnual, hostingEstimate } from '../src/cost-model.js';
+import { PRICING, APP_SIZES, operatingHours, appAnnual, fabricAnnual, hostingEstimate } from '../src/cost-model.js';
 const snapshot = JSON.parse(await readFile(new URL('../docs/pricing-snapshot.json', import.meta.url), 'utf8'));
 
 test('rates match the captured Australia East USD meters', () => {
@@ -58,4 +58,27 @@ test('larger hosts and separate department apps use their own provisioned comput
   assert.equal(APP_SIZES.xlarge.memoryGb, 48);
   assert.throws(() => appAnnual('small'), RangeError);
   assert.throws(() => appAnnual('large', 0), RangeError);
+});
+
+test('weekday 8am–6pm planning uses 50 hours/week for 52 weeks', () => {
+  assert.equal(operatingHours('business'), 2600);
+  assert.equal(appAnnual('medium', 1, 'business'), 1300);
+  assert.equal(appAnnual('medium', 4, 'business'), 5200);
+  assert.equal(appAnnual('medium', 50, 'business'), 65000);
+  assert.equal(appAnnual('large', 1, 'business'), 2600);
+  assert.equal(appAnnual('xlarge', 1, 'business'), 7800);
+  assert.equal(appAnnual('medium') - appAnnual('medium', 1, 'business'), 3080);
+  assert.ok(Math.abs((1 - 2600 / 8760) * 100 - 70.3196347) < 0.00001);
+  assert.throws(() => operatingHours('weekends'), RangeError);
+});
+test('schedule changes apply to both hosting alternatives, not Fabric capacity', () => {
+  const result = hostingEstimate(50, 'business');
+  assert.equal(result.sharedAnnual, 1300);
+  assert.equal(result.separateAnnual, 65000);
+  assert.equal(result.savedAnnual, 63700);
+  assert.equal(result.savedPercent, 98);
+  assert.equal(result.sharedPerDashboard, 26);
+  assert.equal(hostingEstimate(1, 'business').savedAnnual, 0);
+  assert.equal(fabricAnnual(64, 'reserved'), 70016);
+  assert.throws(() => hostingEstimate(50, 'unknown'), RangeError);
 });

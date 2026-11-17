@@ -31,7 +31,15 @@ for (const file of ['app.js', 'costs.js', 'cost-model.js', 'vendor/scrollcraft.j
   const result = spawnSync(process.execPath, ['--check', `${root}/${file}`], { encoding: 'utf8' });
   assert.equal(result.status, 0, result.stderr);
 }
-let total = 0;
-for (const name of await readdir(`${root}/assets`)) total += (await stat(`${root}/assets/${name}`)).size;
+async function assetBytes(folder) {
+  let bytes = 0;
+  for (const entry of await readdir(folder, { withFileTypes: true })) {
+    const path = `${folder}/${entry.name}`;
+    bytes += entry.isDirectory() ? await assetBytes(path) : (await stat(path)).size;
+  }
+  return bytes;
+}
+const total = await assetBytes(`${root}/assets`);
+for (const match of css.matchAll(/url\(['"]?(\.\/[^'")]+)['"]?\)/g)) await stat(resolve(root, match[1]));
 assert.ok(total < 2_000_000, `Assets exceed 2MB budget: ${total}`);
 console.log(`Static checks passed: ${ids.length} unique IDs, local assets, anchors, gallery mappings, JS syntax, accessibility hooks. Assets: ${(total / 1024).toFixed(0)} KiB.`);
