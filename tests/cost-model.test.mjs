@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { PRICING, fabricAnnual, hostingEstimate } from '../src/cost-model.js';
+import { PRICING, APP_SIZES, appAnnual, fabricAnnual, hostingEstimate } from '../src/cost-model.js';
 const snapshot = JSON.parse(await readFile(new URL('../docs/pricing-snapshot.json', import.meta.url), 'utf8'));
 
 test('rates match the captured Australia East USD meters', () => {
@@ -45,4 +45,17 @@ test('one dashboard has no consolidation saving; count changes do not make the s
   assert.equal(hostingEstimate(100).sharedAnnual, 4380);
   assert.equal(hostingEstimate(100).separateAnnual, 438000);
   for (const invalid of [0, -1, 101, 2.5, NaN, '50']) assert.throws(() => hostingEstimate(invalid), RangeError);
+});
+
+test('larger hosts and separate department apps use their own provisioned compute', () => {
+  assert.equal(appAnnual('medium'), 4380);
+  assert.equal(appAnnual('large'), 8760);
+  assert.equal(appAnnual('xlarge'), 26280);
+  assert.equal(appAnnual('medium', 4), 17520);
+  assert.equal(appAnnual('medium', 50), hostingEstimate(50).separateAnnual);
+  assert.equal(APP_SIZES.medium.memoryGb, 6);
+  assert.equal(APP_SIZES.large.memoryGb, 12);
+  assert.equal(APP_SIZES.xlarge.memoryGb, 48);
+  assert.throws(() => appAnnual('small'), RangeError);
+  assert.throws(() => appAnnual('large', 0), RangeError);
 });

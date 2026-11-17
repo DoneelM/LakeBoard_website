@@ -2331,3 +2331,198 @@ html.no-motion {
     padding-left: 14px;
   }
 }
+
+/* App sizing and department boundaries are deployment choices. */
+.sizing-story {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  margin-top: 55px;
+  padding-top: 40px;
+  border-top: 1px solid #cfd0da;
+}
+.sizing-story h3, .department-model h3 {
+  font-size: clamp(27px, 2.8vw, 38px);
+  line-height: 1.15;
+}
+.sizing-story > div > p:not(.eyebrow) {
+  margin-top: 20px;
+  font-size: 14px;
+  line-height: 1.85;
+  color: #535c6c;
+}
+.sizing-table-wrap {
+  overflow-x: auto;
+}
+.sizing-table {
+  border-collapse: collapse;
+  width: 100%;
+  font-variant-numeric: tabular-nums;
+}
+.sizing-table caption {
+  font-size: 17px;
+  font-weight: 550;
+  text-align: left;
+  padding-bottom: 18px;
+}
+.sizing-table caption span {
+  display: block;
+  font-size: 11px;
+  color: #606a7b;
+  margin-top: 6px;
+  font-weight: 400;
+}
+.sizing-table th, .sizing-table td {
+  padding: 17px 12px;
+  text-align: right;
+  border-bottom: 1px solid #d4d5df;
+}
+.sizing-table th:first-child {
+  text-align: left;
+  padding-left: 0;
+}
+.sizing-table thead th {
+  font-size: 11px;
+  color: #606a7b;
+  font-weight: 400;
+}
+.sizing-table th[scope="row"] {
+  font-size: 16px;
+  font-weight: 550;
+}
+.sizing-table th span {
+  display: block;
+  font-size: 10px;
+  margin-top: 5px;
+  color: #606a7b;
+  font-weight: 400;
+}
+.sizing-table td {
+  font-size: 16px;
+}
+.sizing-story > div > p.sizing-note {
+  font-size: 11px;
+  line-height: 1.8;
+  margin-top: 17px;
+}
+.department-model {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  border-top: 1px solid #46516c;
+  padding-top: 35px;
+  margin-bottom: 45px;
+  align-items: center;
+}
+.department-model > div > p:not(.access-mode-label) {
+  font-size: 14px;
+  line-height: 1.85;
+  color: #aeb9cf;
+  margin-top: 20px;
+}
+.department-model strong {
+  color: #e3e1ff;
+  font-weight: 550;
+}
+.department-apps, .department-connectors {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  text-align: center;
+}
+.department-apps > span {
+  border: 1px solid #59617e;
+  border-radius: 5px;
+  padding: 15px 5px;
+  font-size: 12px;
+  font-weight: 550;
+  background: #1a2338;
+}
+.department-apps > span > span {
+  display: block;
+  color: #aeb9cf;
+  font-size: 9px;
+  font-weight: 400;
+  margin-top: 5px;
+}
+.department-connectors {
+  font-size: 21px;
+  color: #a5a0ff;
+  margin-block: 8px;
+}
+.uc-boundary {
+  border: 1px solid #8278d9;
+  border-radius: 5px;
+  padding: 25px 15px;
+  text-align: center;
+}
+.uc-boundary .mono {
+  color: #a5a0ff;
+  display: block;
+  font-size: 10px;
+  margin-bottom: 12px;
+}
+.uc-boundary strong {
+  font-size: 20px;
+  letter-spacing: -.03em;
+}
+.uc-boundary p {
+  font-size: 10px;
+  color: #aeb9cf;
+  margin-top: 10px;
+}
+.department-model > div > p.department-caption {
+  font-size: 11px;
+  line-height: 1.8;
+  margin-top: 20px;
+}
+@media (max-width: 1100px) {
+  .sizing-story, .department-model {
+    gap: 40px;
+  }
+  .department-apps {
+    gap: 5px;
+  }
+  .department-apps > span {
+    font-size: 10px;
+  }
+}
+@media (max-width: 760px) {
+  .sizing-story, .department-model {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    margin-top: 35px;
+    padding-top: 30px;
+  }
+  .sizing-story h3, .department-model h3 {
+    font-size: 30px;
+  }
+  .sizing-story > div > p:not(.eyebrow), .department-model > div > p:not(.access-mode-label) {
+    font-size: 13px;
+  }
+  .sizing-table th, .sizing-table td {
+    padding-inline: 8px;
+  }
+  .sizing-table thead th {
+    font-size: 10px;
+  }
+  .sizing-table td {
+    font-size: 15px;
+  }
+  .department-model {
+    margin-bottom: 30px;
+  }
+  .department-apps > span {
+    padding: 13px 4px;
+    font-size: 10px;
+  }
+  .department-apps > span > span {
+    font-size: 8px;
+  }
+  .uc-boundary strong {
+    font-size: 19px;
+  }
+  .uc-boundary p {
+    font-size: 9px;
+  }
+}

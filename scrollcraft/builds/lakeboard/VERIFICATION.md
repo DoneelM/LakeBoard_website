@@ -56,3 +56,5 @@ This verifies the public static showcase, not LakeBoard's backend, user permissi
 - Opened the new refresh crop in the image dialog on desktop and phone; confirmed the source image is 378 × 229. Escape closes it. No generated UI or altered text.
 - Browser console inspection returned no warnings or errors in the tested local update.
 - Additional evidence: `evidence/costs-desktop.jpg`. Earlier screenshot evidence and the initial asset-size figure above describe the initial release; the updated image assets total about 674 KiB.
+
+Sizing/department extension: six cost-model tests now pass, including Large ($8,760/year), conditional XLarge ($26,280/year) and four Medium department apps ($17,520/year). The department-to-UC diagram and sizing table were inspected at 1280 × 720 and 360 × 640; both fit without document overflow. `evidence/departments-desktop.jpg` records the deployment option. The headline/description now allow one team portal or separate department portals. XLarge's regional availability remains explicitly unverified, rather than implied by its price.

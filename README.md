@@ -1,6 +1,6 @@
 # LakeBoard showcase
 
-A scroll-driven product tour for [LakeBoard](https://github.com/DoneelM/LakeBoard): many dashboard folders, one shared Databricks App per environment.
+A scroll-driven product tour for [LakeBoard](https://github.com/DoneelM/LakeBoard): many dashboard folders sharing a Databricks App, with separate department portals when useful.
 
 **[Visit the website](https://doneelm.github.io/LakeBoard_website/)**
 

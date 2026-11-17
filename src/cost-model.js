@@ -8,6 +8,15 @@ export const PRICING = Object.freeze({
   appPricePerDbu: 1,
   defaultDashboards: 50
 });
+export const APP_SIZES = Object.freeze({
+  medium: Object.freeze({ memoryGb: 6, upToVcpus: 2, dbuPerHour: 0.5 }),
+  large: Object.freeze({ memoryGb: 12, upToVcpus: 4, dbuPerHour: 1 }),
+  xlarge: Object.freeze({ memoryGb: 48, upToVcpus: 12, dbuPerHour: 3 })
+});
+export function appAnnual(size = 'medium', instances = 1) {
+  if (!Object.hasOwn(APP_SIZES, size) || !Number.isInteger(instances) || instances < 1) throw new RangeError('Choose an app size and positive instance count');
+  return APP_SIZES[size].dbuPerHour * PRICING.appPricePerDbu * PRICING.hoursPerYear * instances;
+}
 export function fabricAnnual(cu, basis = 'payg') {
   if (![64, 128, 256].includes(cu)) throw new RangeError('Use F64, F128 or F256');
   if (!['payg', 'reserved'].includes(basis)) throw new RangeError('Unknown pricing basis');

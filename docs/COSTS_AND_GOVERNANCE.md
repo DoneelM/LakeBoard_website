@@ -67,3 +67,21 @@ The panel exposes fetch time, expiry, cache scope, source notes and underlying t
 - Mixed live/external sources may produce `tracked sources unchanged`, an unknown cue, or no cue. SQL depending on time can change without a table write.
 
 This is an advisory signal. Metadata caches and polling can lag changes. Refresh is still available, bypasses the result cache and runs the loaded queries. It is not automatically blocked or skipped when sources appear unchanged.
+
+## Size the shared host, or split by department
+
+[Official Azure Databricks sizes](https://learn.microsoft.com/en-us/azure/databricks/dev-tools/databricks-apps/compute-size), checked 18 November 2026:
+
+| One instance | Memory | CPU (up to) | DBU/hour | Annual app hosting at $1/DBU, 24/7 |
+| --- | ---: | ---: | ---: | ---: |
+| Medium | 6 GB | 2 vCPU | 0.5 | $4,380 |
+| Large | 12 GB | 4 vCPU | 1 | $8,760 |
+| XLarge | 48 GB | 12 vCPU | 3 | $26,280 |
+
+XLarge exists only in some regions. Its cost above applies the verified Australia East DBU price to its documented consumption, conditional on that size being available in the workspace. This is not a claim of confirmed XLarge availability in Australia East.
+
+A dedicated Medium app for a lightweight report can leave memory/CPU headroom unused. Consolidating multiple dashboard folders can make better use of those resources. A heavy report can still justify a dedicated app. Select Medium, Large or XLarge based on measured demand; changing size is **scaling up**, distinct from adding horizontal instances.
+
+The shared host need not be organisation-wide. Separate LakeBoard deployments for Sales, Marketing, Finance and Operations can each contain many dashboards, with independent sizing, deployments and caches, while referencing common governed UC data and metric definitions. Four Medium department apps cost $17,520/year in app compute under the same assumptions (a $201,480 app-hosting difference versus 50 Medium apps).
+
+Every Databricks app has its own service principal; separate apps do not automatically share its grants or cached results. UC policies follow the querying identity: the viewer in user mode, or that department app's explicitly granted SP in app mode. Configure the deployed dashboard folders, audience groups and app resources for each portal. This is a deployment pattern, not an automatic department-partitioning feature. One portal with department audience gates remains another option.
