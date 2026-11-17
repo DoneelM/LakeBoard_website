@@ -54,3 +54,9 @@ Four distinct engine/device families: parallax, flow, pin, reveal; gallery and d
 ## Claims and boundaries
 
 No measured savings, scale benchmarks, testimonials, or automated semantic conversion claims. The builder reports a working pilot with users. Shared app hosting reduces app proliferation, not an unconditional cost guarantee. Databricks compute still costs money. Metric views / curated Genie Agents describe the migration pattern and pilot, not a shipped automatic converter. Viewer authorization and cache choices require correct configuration. Genie One MCP is authoring-time discovery; optional runtime chat uses curated Genie Agents.
+
+## 18 November update: cost evidence and governance
+
+User steering: “say 50 dashboards, quote in usd”; show both PAYG and 1-year reservation; add the possible F64 reduction. The user also clarified that warehouse costs were already incurred when hosting reports in Fabric. The new section therefore holds that common Databricks baseline constant and models changed Fabric capacity and app-hosting costs, with only incremental usage differences affecting net savings.
+
+The story now inserts a sourced capacity table and useful dashboard-count control after the gallery, then an identity/caching explanation before the freshness evidence. The shared-host assembly remains the only pin and the signature. The prices are public regional estimates, not measured pilot savings. The refresh evidence is cropped to one complete dataset and its expanded source table; prose explains the advisory change signal rather than claiming refresh is disabled.

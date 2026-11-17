@@ -21,6 +21,8 @@ jobs:
           package-manager-cache: false
       - name: Check source
         run: npm run check
+      - name: Check cost calculations
+        run: npm test
       - name: Build static site
         run: npm run build
       - name: Configure Pages

@@ -138,5 +138,6 @@
   compact.addEventListener('change', configureMotion);
   addEventListener('scroll', queueAssembly, { passive: true });
   addEventListener('resize', queueAssembly, { passive: true });
+  addEventListener('lakeboard:layout', () => { runtime?.layout(); queueAssembly(); });
   configureMotion();
 })();

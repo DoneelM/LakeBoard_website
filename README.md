@@ -4,7 +4,7 @@ A scroll-driven product tour for [LakeBoard](https://github.com/DoneelM/LakeBoar
 
 **[Visit the website](https://doneelm.github.io/LakeBoard_website/)**
 
-The showcase uses actual dashboard screenshots, an assembly interaction explaining the shared host, a seven-view gallery, refresh and mobile evidence, and an inspectable authoring contract. It is a static site; it does not connect to a Databricks workspace or expose account details.
+The showcase uses actual dashboard screenshots, an assembly interaction explaining the shared host, a seven-view gallery, a sourced 50-dashboard cost model, query-identity and cache governance detail, refresh and mobile evidence, and an inspectable authoring contract. It is a static site; it does not connect to a Databricks workspace or expose account details.
 
 ## Local development
 
@@ -12,6 +12,7 @@ Node 22 or later. No dependencies or API keys.
 
 ```sh
 npm run check
+npm test
 npm run build
 npm run dev
 ```
@@ -30,6 +31,7 @@ Built with the [Scroll Craft](https://github.com/nateherkai/scroll-craft) runtim
 
 - [Creative brief and scroll score](scrollcraft/builds/lakeboard/BRIEF.md)
 - [Verification notes](scrollcraft/builds/lakeboard/VERIFICATION.md)
+- [Cost model, pricing sources and governance detail](docs/COSTS_AND_GOVERNANCE.md)
 - [Third-party notices](THIRD_PARTY_NOTICES.md)
 
 Mobile and reduced-motion layouts show the same content in normal flow. A footer control also lets visitors reduce motion. Without JavaScript, the site keeps its reading order, direct image links and GitHub links.
