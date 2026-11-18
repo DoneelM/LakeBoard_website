@@ -13,7 +13,8 @@ assert.equal(new Set(ids).size, ids.length, 'IDs must be unique');
 for (const match of html.matchAll(/(?:src|href)="([^"#]+)"/g)) {
   if (/^(https?:|mailto:)/.test(match[1])) continue;
   assert.ok(match[1].startsWith('./'), `Asset must work under project base: ${match[1]}`);
-  assert.ok((await stat(resolve(root, match[1]))).isFile(), `Missing local asset: ${match[1]}`);
+  const target = match[1].endsWith('/') ? `${match[1]}index.html` : match[1];
+  assert.ok((await stat(resolve(root, target))).isFile(), `Missing local asset: ${match[1]}`);
 }
 for (const match of html.matchAll(/href="#([^"]+)"/g)) assert.ok(ids.includes(match[1]), `Broken anchor ${match[1]}`);
 for (const match of html.matchAll(/data-dashboard="([^"]+)"/g)) {
@@ -27,7 +28,7 @@ assert.ok(css.includes('prefers-reduced-motion') && js.includes("matchMedia('(pr
 assert.ok(html.includes('<dialog') && js.includes('dialog.showModal()'));
 assert.ok(!html.includes('—'), 'Use plain punctuation in visible copy');
 assert.ok(!/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i.test(html + js), 'No personal emails in source');
-for (const file of ['app.js', 'costs.js', 'cost-model.js', 'vendor/scrollcraft.js']) {
+for (const file of ['app.js', 'costs.js', 'cost-model.js', 'agent/copy.js', 'vendor/scrollcraft.js']) {
   const result = spawnSync(process.execPath, ['--check', `${root}/${file}`], { encoding: 'utf8' });
   assert.equal(result.status, 0, result.stderr);
 }

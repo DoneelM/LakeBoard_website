@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#06080C">
+  <title>LakeBoard · Agent mode</title>
+  <meta name="description" content="Copy LakeBoard’s project context into a coding agent. Includes architecture, governance, pricing assumptions and authoring resources.">
+  <link rel="canonical" href="https://doneelm.github.io/LakeBoard_website/agent/">
+  <link rel="alternate" type="text/markdown" href="./lakeboard.md" title="LakeBoard Markdown">
+  <link rel="icon" href="../assets/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../vendor/scrollcraft.css">
+  <link rel="stylesheet" href="../styles.css">
+  <script src="./copy.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header">
+    <a class="wordmark" href="../" aria-label="LakeBoard home">
+      <img src="../assets/logo.svg" width="32" height="32" alt="">LakeBoard<span class="brand-dot">/</span>
+    </a>
+    <div class="header-actions">
+      <div class="site-modes" role="group" aria-label="Website mode">
+        <a href="../">Human</a>
+        <a href="./" aria-current="page">Agent</a>
+      </div>
+      <a class="header-github" href="https://github.com/DoneelM/LakeBoard">GitHub <span aria-hidden="true">↗</span></a>
+    </div>
+  </header>
+  <main id="main" class="wrap agent-page">
+    <div class="agent-intro">
+      <p class="eyebrow">LakeBoard / Agent mode</p>
+      <h1>LakeBoard in <em>Markdown.</em></h1>
+      <p>Give your coding agent the context it needs to evaluate LakeBoard or build a dashboard. The brief covers architecture, Unity Catalog access, cost assumptions and the authoring workflow.</p>
+    </div>
+    <div class="agent-layout">
+      <section class="agent-document" aria-labelledby="context-title">
+        <div class="agent-toolbar">
+          <h2 id="context-title" class="mono">lakeboard.md</h2>
+          <div class="agent-actions">
+            <a href="./lakeboard.md">Raw Markdown</a>
+            <button type="button" class="agent-copy" id="copy-markdown" hidden>Copy Markdown</button>
+          </div>
+        </div>
+        <p role="status" id="agent-copy-status" class="agent-copy-status"></p>
+        <pre class="agent-markdown"><code id="agent-context"><!-- agent-context --></code></pre>
+      </section>
+      <aside class="agent-links" aria-labelledby="resources-title">
+        <h2 id="resources-title">Resources</h2>
+        <a href="https://github.com/DoneelM/LakeBoard">Project on GitHub <span aria-hidden="true">↗</span></a>
+        <a href="https://github.com/DoneelM/LakeBoard/blob/main/docs/AUTHORING.md">Authoring guide <span aria-hidden="true">↗</span></a>
+        <a href="../#costs">Cost calculator <span aria-hidden="true">↗</span></a>
+      </aside>
+    </div>
+  </main>
+</body>
+</html>
