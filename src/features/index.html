@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#06080C">
+  <title>LakeBoard · Features</title>
+  <meta name="description" content="What LakeBoard does today: hosting many dashboards in one Databricks App, viewer-authorized queries, caching, freshness, Ask Genie, Power BI and Claude dashboard migration, and dev/test/prod delivery.">
+  <meta property="og:title" content="LakeBoard · Features">
+  <meta property="og:description" content="Every LakeBoard feature in plain language, with a technical drill-through for each one.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://doneelm.github.io/LakeBoard_website/features/">
+  <link rel="canonical" href="https://doneelm.github.io/LakeBoard_website/features/">
+  <meta property="og:image" content="https://doneelm.github.io/LakeBoard_website/assets/social-preview.jpg">
+  <meta property="og:image:alt" content="LakeBoard showcase with actual dashboard screenshots and the headline Many dashboards. One shared app.">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="../assets/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../vendor/scrollcraft.css">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <a class="wordmark" href="../" aria-label="LakeBoard home"><img src="../assets/logo.svg" width="32" height="32" alt="">LakeBoard<span class="brand-dot">/</span></a>
+  <nav aria-label="Main navigation"><a href="../#approach">The approach</a><a href="../#dashboards">Dashboards</a><a href="../#costs">Costs</a><a href="../#build">Build with it</a><a href="./" aria-current="page">Features</a></nav>
+  <div class="header-actions">
+    <div class="site-modes" role="group" aria-label="Website mode">
+      <a href="../" aria-current="true">Human</a>
+      <a href="../agent/">Agent</a>
+    </div>
+    <a class="header-github" href="https://github.com/DoneelM/LakeBoard">GitHub <span aria-hidden="true">↗</span></a>
+  </div>
+</header>
+<main id="main" class="wrap features-page">
+  <div class="features-intro">
+    <p class="eyebrow">LakeBoard / Features</p>
+    <h1>What LakeBoard <em>does today.</em></h1>
+    <p>A plain-language list of what is built into the <a href="https://github.com/DoneelM/LakeBoard">LakeBoard repository</a>. Every card drills through to a technical section: how the feature works, how to set it up and where it stops.</p>
+    <div class="features-actions"><a class="button primary" href="./how-it-works/">How it all works <span aria-hidden="true">↘</span></a><a class="text-link" href="#not-included">What it doesn’t do <span aria-hidden="true">↓</span></a></div>
+  </div>
+
+  <dl class="status-legend" aria-label="Feature status key">
+    <div><dt><span class="status status-built">Built in</span></dt><dd>Works once LakeBoard is deployed.</dd></div>
+    <div><dt><span class="status status-optin">Opt-in</span></dt><dd>Built in, switched on per dataset, dashboard or environment.</dd></div>
+    <div><dt><span class="status status-setup">You set it up</span></dt><dd>A documented pattern you configure in your workspace, outside the repository.</dd></div>
+    <div><dt><span class="status status-progress">In progress</span></dt><dd>Usable now. Its decision record is still open.</dd></div>
+  </dl>
+
+  <nav class="feature-jump" aria-label="Feature groups">
+    <a href="#build"><span class="mono">01</span>Build</a>
+    <a href="#govern"><span class="mono">02</span>Govern</a>
+    <a href="#serve"><span class="mono">03</span>Serve data</a>
+    <a href="#run"><span class="mono">04</span>Run and deliver</a>
+    <a href="#not-included"><span class="mono">05</span>Not included</a>
+  </nav>
+
+  <section class="feature-group" id="build" aria-labelledby="build-title">
+    <div class="feature-group-head"><p class="eyebrow">01 · Build</p><h2 id="build-title">A dashboard is a folder.</h2><p>How dashboards get written, by people or coding agents, and what they are made of.</p></div>
+    <div class="feature-grid">
+      <article class="feature-card" id="card-one-app"><div class="feature-tags"><span class="status status-built">Built in</span></div><h3>One app, many dashboards</h3><p>One Databricks App hosts every dashboard, with a left navigation grouped into sections and a home page of tiles. Adding a dashboard adds a folder, not another app.</p><p class="feature-key mono">src/dashboards/&lt;slug&gt;/</p><a class="feature-drill" href="./how-it-works/#one-app">How it works<span class="sr-only">: one app, many dashboards</span> <span aria-hidden="true">→</span></a></article>
+      <article class="feature-card" id="card-agent-authoring"><div class="feature-tags"><span class="status status-progress">In progress</span></div><h3>Build with any coding agent</h3><p>Claude Code, Codex, Cursor and other agents follow one shared workflow and one API contract. Business users can explore approved data with Databricks Genie One MCP and hand the folder to the data team.</p><p class="feature-key mono">AGENTS.md · DASHBOARD_WORKFLOW.md</p><a class="feature-drill" href="./how-it-works/#agent-authoring">How it works<span class="sr-only">: build with any coding agent</span> <span aria-hidden="true">→</span></a></article>
+      <article class="feature-card" id="card-page-kit"><div class="feature-tags"><span class="status status-built">Built in</span></div><h3>A shared page kit and theme</h3><p>Filters, KPI tiles, sortable tables with CSV and Excel export, bar and line charts and maps come ready-made. One block of colours drives light and dark mode, and the name, logo and number format are configuration.</p><p class="feature-key mono">dash · kit · shell.css</p><a class="feature-drill" href="./how-it-works/#page-kit">How it works<span class="sr-only">: a shared page kit and theme</span> <span aria-hidden="true">→</span></a></article>
+      <article class="feature-card" id="card-claude-artifacts"><div class="feature-tags"><span class="status status-built">Built in</span></div><h3>Host Claude dashboards as they are</h3><p>A business user builds a dashboard in Claude and shares the link. It is imported as a draft with its page unchanged, then the data team connects it to Unity Catalog and checks the numbers against the original.</p><p class="feature-key mono">page: artifact · status: draft</p><a class="feature-drill" href="./how-it-works/#claude-artifacts">How it works<span class="sr-only">: host Claude dashboards as they are</span> <span aria-hidden="true">→</span></a></article>
+      <article class="feature-card" id="card-power-bi"><div class="feature-tags"><span class="status status-built">Built in</span></div><h3>Power BI migration helpers</h3><p>See who uses each report, summarise a Power BI project’s measures, security roles and visuals, and record how the new dashboard’s numbers reconcile with the old report. Helpers, not an automatic converter.</p><p class="feature-key mono">powerbi_usage.py · pbip_summary.py</p><a class="feature-drill" href="./how-it-works/#power-bi">How it works<span class="sr-only">: Power BI migration helpers</span> <span aria-hidden="true">→</span></a></article>
+      <article class="feature-card" id="card-responsive"><div class="feature-tags"><span class="status status-built">Built in</span></div><h3>Phone and keyboard ready</h3><p>The navigation collapses into a drawer on small screens, tiles wrap and charts stack. Every dashboard is expected to work at phone width and with the keyboard.</p><p class="feature-key mono">Responsive browser layout</p><a class="feature-drill" href="./how-it-works/#responsive">How it works<span class="sr-only">: phone and keyboard ready</span> <span aria-hidden="true">→</span></a></article>
+      <article class="feature-card" id="card-samples"><div class="feature-tags"><span class="status status-built">Built in</span></div><h3>Eight sample dashboards</h3><p>Working examples over the built-in Databricks <code>samples</code> catalog, from taxi trips to world weather, so you can try LakeBoard in most workspaces, including Databricks Free Edition.</p><p class="feature-key mono">samples.* · Free Edition</p><a class="feature-drill" href="./how-it-works/#samples">How it works<span class="sr-only">: eight sample dashboards</span> <span aria-hidden="true">→</span></a></article>
+    </div>
+  </section>
+
+  <section class="feature-group" id="govern" aria-labelledby="govern-title">
+    <div class="feature-group-head"><p class="eyebrow">02 · Govern</p><h2 id="govern-title">Unity Catalog decides.</h2><p>Who can open what, which rows they see, and what a page is allowed to do.</p></div>
+    <div class="feature-grid">
+      <article class="feature-card" id="card-viewer-auth"><div class="feature-tags"><span class="status status-built">Built in</span></div><h3>Queries run as the viewer</h3><p>Each query runs with the signed-in person’s own access, so Unity Catalog grants, row filters and column masks apply whatever the page does. Running a dataset as the app is a deliberate, per-dataset choice.</p><p class="feature-key mono">auth: user (default) · auth: app</p><a class="feature-drill" href="./how-it-works/#viewer-auth">How it works<span class="sr-only">: queries run as the viewer</span> <span aria-hidden="true">→</span></a></article>
+      <article class="feature-card" id="card-access-layers"><div class="feature-tags"><span class="status status-built">Built in</span></div><h3>Access in four layers</h3><p>Control who opens the portal, who sees each dashboard, who sees a sensitive part of a dashboard, and, underneath it all, what the data itself allows.</p><p class="feature-key mono">CAN USE · groups · Unity Catalog</p><a class="feature-drill" href="./how-it-works/#access-layers">How it works<span class="sr-only">: access in four layers</span> <span aria-hidden="true">→</span></a></article>
+      <article class="feature-card" id="card-safe-sql"><div class="feature-tags"><span class="status status-built">Built in</span></div><h3>Safe SQL by construction</h3><p>Read-only queries only, from approved catalogs, with filter values passed as typed parameters. Every pull request checks the rules and every deploy test-runs each query before anything changes.</p><p class="feature-key mono">check.py · pytest · LIMIT 0</p><a class="feature-drill" href="./how-it-works/#safe-sql">How it works<span class="sr-only">: safe SQL by construction</span> <span aria-hidden="true">→</span></a></article>
+      <article class="feature-card" id="card-csp"><div class="feature-tags"><span class="status status-built">Built in</span></div><h3>Pages can’t call out</h3><p>The browser is told to load scripts and data only from the portal, so a dashboard page can’t pull code from, or send data to, another website.</p><p class="feature-key mono">Content-Security-Policy</p><a class="feature-drill" href="./how-it-works/#csp">How it works<span class="sr-only">: pages can’t call out</span> <span aria-hidden="true">→</span></a></article>
+    </div>
+  </section>
+
+  <section class="feature-group" id="serve" aria-labelledby="serve-title">
+    <div class="feature-group-head"><p class="eyebrow">03 · Serve data</p><h2 id="serve-title">Fast, and honest about age.</h2><p>How results are reused, how people know what they’re looking at, and how they ask questions of it.</p></div>
+    <div class="feature-grid">
+      <article class="feature-card" id="card-caching"><div class="feature-tags"><span class="status status-built">Built in</span></div><h3>Caching that fits the data</h3><p>Results are kept per viewer by default. Shared results and background pre-loading are opt-in per dataset, and a shared result is only served after checking the reader can run its query.</p><p class="feature-key mono">cache_ttl · cache: shared · warm</p><a class="feature-drill" href="./how-it-works/#caching">How it works<span class="sr-only">: caching that fits the data</span> <span aria-hidden="true">→</span></a></article>
+      <article class="feature-card" id="card-freshness"><div class="feature-tags"><span class="status status-built">Built in</span></div><h3>Freshness label</h3><p>“Data as of 10:42 am” sits beside Refresh. Its panel shows when each dataset was fetched, how it is cached, and whether its source tables have changed since, from Unity Catalog metadata.</p><p class="feature-key mono">/api/d/&lt;slug&gt;/sources</p><a class="feature-drill" href="./how-it-works/#freshness">How it works<span class="sr-only">: freshness label</span> <span aria-hidden="true">→</span></a></article>
+      <article class="feature-card" id="card-selective-refresh"><div class="feature-tags"><span class="status status-built">Built in</span></div><h3>Selective refresh</h3><p>Refresh data reruns only the queries whose sources changed or can’t be verified. Refresh all forces everything. Every warehouse query is logged with its statement ID for profiling.</p><p class="feature-key mono">refreshChanged · refreshAll</p><a class="feature-drill" href="./how-it-works/#selective-refresh">How it works<span class="sr-only">: selective refresh</span> <span aria-hidden="true">→</span></a></article>
+      <article class="feature-card" id="card-ask-genie"><div class="feature-tags"><span class="status status-optin">Opt-in</span></div><h3>Ask Genie</h3><p>A chat bar on a dashboard answers questions through a curated Genie space, using the viewer’s own access and the filters on screen as context. Answers show the table and the SQL.</p><p class="feature-key mono">genie: space_id</p><a class="feature-drill" href="./how-it-works/#ask-genie">How it works<span class="sr-only">: Ask Genie</span> <span aria-hidden="true">→</span></a></article>
+    </div>
+  </section>
+
+  <section class="feature-group" id="run" aria-labelledby="run-title">
+    <div class="feature-group-head"><p class="eyebrow">04 · Run and deliver</p><h2 id="run-title">Ship it like code.</h2><p>Moving changes through environments, keeping compute off when nobody needs it, and checking what was deployed.</p></div>
+    <div class="feature-grid">
+      <article class="feature-card" id="card-promotion"><div class="feature-tags"><span class="status status-built">Built in</span></div><h3>Dev, test and prod from one branch flow</h3><p>The same SQL runs in every environment, with catalog names swapped automatically. Example pipelines for GitHub Actions and Azure DevOps check, test-run and deploy each change.</p><p class="feature-key mono">develop → release → main</p><a class="feature-drill" href="./how-it-works/#promotion">How it works<span class="sr-only">: dev, test and prod from one branch flow</span> <span aria-hidden="true">→</span></a></article>
+      <article class="feature-card" id="card-cost-controls"><div class="feature-tags"><span class="status status-built">Built in</span><span class="status status-setup">You set it up</span></div><h3>Apps that stop when idle</h3><p>The pipelines stop dev and test apps after every deploy. For prod, a scheduled Databricks job can stop the app in the evening; you create that job in your workspace.</p><p class="feature-key mono">databricks apps stop</p><a class="feature-drill" href="./how-it-works/#cost-controls">How it works<span class="sr-only">: apps that stop when idle</span> <span aria-hidden="true">→</span></a></article>
+      <article class="feature-card" id="card-review-health"><div class="feature-tags"><span class="status status-built">Built in</span><span class="status status-optin">Opt-in</span></div><h3>Health, review and usage</h3><p>A health endpoint lists live and broken dashboards. A read-only script reviews a deployment and its security scan. Page views are logged, with an optional Unity Catalog table for long-term adoption reporting.</p><p class="feature-key mono">/api/health · review_app.py</p><a class="feature-drill" href="./how-it-works/#review-health">How it works<span class="sr-only">: health, review and usage</span> <span aria-hidden="true">→</span></a></article>
+    </div>
+  </section>
+
+  <section class="feature-group not-included" id="not-included" aria-labelledby="not-title">
+    <div class="feature-group-head"><p class="eyebrow">05 · Not included</p><h2 id="not-title">What it doesn’t do.</h2><p>Known gaps, taken from the project’s own limitations and decision records. Check these against how your reports are used before you plan a migration.</p></div>
+    <ul class="gap-list">
+      <li><strong>No scheduled emails, subscriptions or data alerts.</strong> Nothing is pushed to people; they open the portal.</li>
+      <li><strong>No paginated reports, PDF or PowerPoint export.</strong> Tables export to CSV and Excel.</li>
+      <li><strong>No drag-and-drop editor or write-back.</strong> Pages are HTML and JavaScript, written by a person or a coding agent.</li>
+      <li><strong>Databricks only.</strong> It needs Databricks Apps, a SQL warehouse, and user authorization for apps switched on by a workspace admin.</li>
+      <li><strong>Caches live in app memory.</strong> A restart, deploy or evening stop empties them, and they aren’t shared between app instances.</li>
+      <li><strong>Rows are capped and arrive as text.</strong> 500,000 rows by default, so aggregate in SQL.</li>
+      <li><strong>Not an automatic Power BI converter.</strong> Measures are rewritten as SQL and reconciled. Metric views and Genie Agents are reviewed and provisioned separately.</li>
+      <li><strong>Ask Genie needs a Genie space you build.</strong> LakeBoard never creates or changes spaces.</li>
+      <li><strong>No native mobile app or Teams embedding.</strong> Phones get the responsive browser layout.</li>
+    </ul>
+  </section>
+
+  <section class="features-next" aria-labelledby="next-title">
+    <h2 id="next-title">Want the detail behind <em>each card?</em></h2>
+    <p>The technical page explains the mechanism, the configuration fields and commands, and the limits for every feature, with links to the decision record behind it.</p>
+    <div class="features-actions"><a class="button primary" href="./how-it-works/">How it works <span aria-hidden="true">↘</span></a><a class="text-link" href="https://github.com/DoneelM/LakeBoard/tree/main/docs/decisions">Read the decision records <span aria-hidden="true">↗</span></a></div>
+  </section>
+</main>
+<footer class="site-footer dark"><div class="wrap footer-inner"><a class="wordmark" href="../"><img src="../assets/logo.svg" width="26" height="26" alt="">LakeBoard</a><p>An independent project by <a href="https://aiagents.nz/">Doneel Maran · aiagents.nz</a>. Built on Databricks.</p><a href="https://github.com/DoneelM/LakeBoard_website">Website source ↗</a></div></footer>
+</body>
+</html>

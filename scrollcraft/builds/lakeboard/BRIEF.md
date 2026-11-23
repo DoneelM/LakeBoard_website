@@ -67,3 +67,8 @@ Additional user steering: explain Medium's CPU/memory headroom, Large/XLarge siz
 ## Further user steering: business hours and portfolio identity
 
 Add weekday 08:00–18:00 operation, Databricks Jobs start/stop patterns and dev/test cleanup after checks. Use a transparent 52-week estimate (2,600 hours/year), keeping existing warehouse spend common to the baseline. User explicitly requested matching aiagents.nz instead of light/dark alternation, fresh refresh screenshots, and an independent sub-agent score with revision until above 8/10. The revised visual contract uses one #06080C canvas, #0E121A surfaces, cyan #00F2FE and teal #00D2B4, Plus Jakarta Sans headings and Inter body text. The actual product captures retain their real app styling. No portfolio outcome claims were copied into LakeBoard.
+
+
+## 23 November update: features overview and drill-through
+
+User steering: add a page giving a high-level overview of the features already implemented, with a drill-through or second page for technical detail. Added `features/` (18 feature cards in four groups, a status key and a "What it doesn't do" list) and `features/how-it-works/` (one section per card: how it works, set it up, limits, decision record link, back to the card). Content is drawn from the LakeBoard README, DESIGN, AUTHORING, OPERATIONS and decision records 0001 to 0016; statuses follow those records, so agent-independent authoring shows "In progress" and the prod evening stop shows "You set it up". Both pages are static, outside the scroll story, and use no Scroll Craft runtime.

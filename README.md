@@ -6,6 +6,16 @@ A scroll-driven product tour for [LakeBoard](https://github.com/DoneelM/LakeBoar
 
 The showcase uses actual dashboard screenshots, an assembly interaction explaining the shared host, a seven-view gallery, a sourced 50-dashboard cost model with 24/7 and business-hours comparisons, query-identity and cache governance detail, refresh and mobile evidence, and an inspectable authoring contract. It is a static site; it does not connect to a Databricks workspace or expose account details.
 
+## Features pages
+
+`/LakeBoard_website/features/` lists every LakeBoard feature in plain language, grouped
+into Build, Govern, Serve data and Run and deliver, with a status (built in, opt-in,
+you set it up, in progress) and a list of what LakeBoard doesn't do. Each card drills
+through to its section on `/LakeBoard_website/features/how-it-works/`: the mechanism,
+the configuration and commands, the limits and the decision record behind it. Both
+pages are static HTML. `npm run check` fails if a card and a technical section stop
+matching one to one.
+
 ## Agent mode
 
 Use the Human / Agent control in the site header to open the Markdown brief. The
