@@ -53,6 +53,7 @@ Weekday scheduling models ${number.format(operatingHours('business'))} running h
 
 ## Evaluate or build
 
+- [Feature overview](${website}features/) and [how each feature works](${website}features/how-it-works/)
 - [Project README and quickstart](${project}#quickstart-about-10-minutes)
 - [Dashboard authoring contract](${guide('AUTHORING')})
 - [Business users and Genie One](${guide('BUSINESS_AUTHORS')})
