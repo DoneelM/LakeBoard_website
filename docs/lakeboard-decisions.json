@@ -1,0 +1,23 @@
+{
+  "repository": "DoneelM/LakeBoard",
+  "ref": "main",
+  "commit": "eef168a8b39ada4bbcf3cef3d7d878eb3d77b1a3",
+  "records": {
+    "0001-one-app-one-folder-per-dashboard.md": "5a20e045a8c3b9d22a53a32e9acf814df0403b90",
+    "0002-queries-run-as-the-viewer.md": "c28c6e6043be9e8149cf156d3d7e3accf34d5823",
+    "0003-caching-and-warming.md": "fbafbc7a1595fc2390a3e45135d9c07d393e1f4e",
+    "0004-promotion-same-branch-to-each-environment.md": "9f1420bb9456187953edee0cb2803b20158222a2",
+    "0005-stop-apps-after-deploy-and-at-6pm.md": "25ba3efc11ff419a0b7dc75102e7acb426e5ec38",
+    "0006-ask-genie-as-the-viewer.md": "aa0f7a66b0dcf47d797fcebdf1bec6ef189d8209",
+    "0009-data-freshness-label.md": "49edd45026d7b2e3463dea9a91c4e2248c0880f7",
+    "0010-local-overrides-for-workspace-details.md": "af18dc6ccc02757d050fdce3485d0d156bc4ec38",
+    "0011-agent-independent-dashboard-authoring.md": "60c4be5c32e2322f53d42373d1cd399f763ac903",
+    "0011-claude-dashboard-artifacts.md": "534b083a2d5a41a0cd349eb0b1209ce9c3afd6b0",
+    "0013-platform-reliability.md": "7a9ae263902f87fe4a73533d9403b7fc5dfec4eb",
+    "0014-travel-operations-showcase.md": "6381835df84949391d5b304c9de27568be9ff3eb",
+    "0015-review-deployed-apps.md": "96803bd8adf8c009f6f421a74b8943e8652f98f2",
+    "0016-selective-refresh.md": "efdc2c0830e7cbe544c3fae5b30e4cb36da9ab2e",
+    "0017-navigation-sub-menus.md": "93d360f468aa860499e4e28ad4dd9c35d32166d3",
+    "0018-publishing-guards.md": "199b37e8c614ea326d85a559f12674b22e4bdee2"
+  }
+}
