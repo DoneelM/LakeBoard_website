@@ -43,6 +43,7 @@
     <nav class="tech-toc" aria-label="Features on this page">
       <p class="mono">Build</p>
       <a href="#one-app">One app, many dashboards</a>
+      <a href="#nav-groups">Navigation sub-menus</a>
       <a href="#agent-authoring">Any coding agent</a>
       <a href="#page-kit">Page kit and theme</a>
       <a href="#claude-artifacts">Claude dashboards</a>
@@ -61,6 +62,7 @@
       <a href="#ask-genie">Ask Genie</a>
       <p class="mono">Run and deliver</p>
       <a href="#promotion">Dev, test and prod</a>
+      <a href="#publishing-guards">Reviewed before it runs</a>
       <a href="#cost-controls">Stopping idle apps</a>
       <a href="#review-health">Health, review, usage</a>
     </nav>
@@ -72,7 +74,11 @@
         <h2 id="one-app-title">One app, many dashboards</h2>
         <p class="tech-summary">One FastAPI process per environment, running as a Databricks App, serves every dashboard folder it finds.</p>
         <h3>How it works</h3>
-        <p>At start-up the app reads every <code>dashboard.yml</code> and SQL file under <code>src/dashboards/</code> from disk and validates them. Each valid folder becomes <code>/d/&lt;slug&gt;</code>, listed in a left navigation grouped by section and on a home page of tiles. People only see the dashboards they may open. A folder that fails validation is left out of the navigation and reported by the health endpoint; the other dashboards keep working. There is no database: query results live in an in-memory cache.</p>
+        <p>At start-up the app reads every <code>dashboard.yml</code> and SQL file under <code>src/dashboards/</code> from disk and validates them. Each valid folder becomes <code>/d/&lt;slug&gt;</code>, listed in a left navigation grouped by section (with optional <a href="#nav-groups">sub-menus</a>) and on a home page of tiles. People only see the dashboards they may open. A folder that fails validation is left out of the navigation and reported by the health endpoint; the other dashboards keep working. There is no database: query results live in an in-memory cache.</p>
+        <figure class="dg">
+          <div class="dg-flow"><div class="dg-node is-actor"><strong>Viewer</strong><span>browser, signed in with workspace SSO</span></div><div class="dg-arrow"></div><div class="dg-node is-app"><strong>LakeBoard app</strong><span>one per environment · checks groups · serves /d/&lt;slug&gt;</span></div><div class="dg-arrow"></div><div class="dg-fan"><div class="dg-fan-row"><span class="dg-label">viewer token</span><div class="dg-node is-data"><strong>SQL warehouse</strong><span>dataset queries, with UC grants, filters and masks</span></div></div><div class="dg-fan-row"><span class="dg-label">viewer token</span><div class="dg-node is-data"><strong>Genie space</strong><span>Ask Genie questions</span></div></div><div class="dg-fan-row"><span class="dg-label is-sp">app identity</span><div class="dg-node is-sp"><strong>App-identity work</strong><span>freshness metadata, auth: app datasets, warming</span></div></div></div></div>
+          <figcaption>One request path for every dashboard. Calls run with the viewer’s own token, except the app-identity work in the last row.</figcaption>
+        </figure>
         <pre class="tech-code" tabindex="0"><code>/                         home: dashboards you may open, by section
 /d/&lt;slug&gt;                 shell (navigation, title bar) + the dashboard's index.html
 /api/d/&lt;slug&gt;/data/&lt;id&gt;   runs one dataset, returns JSON rows (cached)
@@ -97,6 +103,29 @@ src/dashboards/my-dashboard/
         <p class="tech-links"><a href="https://github.com/DoneelM/LakeBoard/blob/main/docs/decisions/0001-one-app-one-folder-per-dashboard.md">Decision 0001 ↗</a><a href="https://github.com/DoneelM/LakeBoard/blob/main/docs/DESIGN.md">DESIGN.md ↗</a><a class="tech-back" href="../#card-one-app">← Back to the card</a></p>
       </section>
 
+      <section class="tech" id="nav-groups" aria-labelledby="nav-groups-title">
+        <div class="tech-head"><p class="eyebrow">Build</p><span class="status status-built">Built in</span></div>
+        <h2 id="nav-groups-title">Navigation sub-menus</h2>
+        <p class="tech-summary">Related dashboards sit together under one collapsible heading, without adding a portal-wide section.</p>
+        <h3>How it works</h3>
+        <p>A dashboard can set an optional <code>group:</code> in <code>dashboard.yml</code>. Dashboards in the same section with the same group are listed under one heading, indented with an accent bar, placed where the group’s first dashboard (by <code>order</code>) would be. The heading is a <code>&lt;details open&gt;</code> element: expanded by default, no script, and it works from the keyboard. Home-page cards stay flat.</p>
+        <figure class="dg">
+          <div class="dg-navmock" aria-label="Example left navigation"><p class="dg-nav-section">Travel</p><p class="dg-nav-item">Travel Operations</p><div class="dg-nav-group"><p class="dg-nav-head">▾ Trip Reports <code>group: Trip Reports</code></p><p class="dg-nav-item">Bookings by month</p><p class="dg-nav-item">Cancellations</p><p class="dg-nav-item">Property drill-down</p></div><p class="dg-nav-item">Travel Marketplace</p></div>
+          <figcaption>An illustration, not a screenshot: three dashboards in the Travel section share <code>group: Trip Reports</code>, so they sit under one heading, placed where the first of them would be.</figcaption>
+        </figure>
+        <h3>Set it up</h3>
+        <pre class="tech-code" tabindex="0"><code>section: Travel
+group: Trip Reports      # 40 characters at most; same text in every member
+order: 20</code></pre>
+        <h3>Limits</h3>
+        <ul class="tech-limits">
+          <li>One level only: a group can’t contain another group.</li>
+          <li>The name is repeated in each member’s <code>dashboard.yml</code>, so a typo makes a second group. The checks don’t flag near-duplicates.</li>
+          <li><code>group</code> (one sub-menu heading) and <code>groups</code> (who may open the dashboard) are different keys with similar names.</li>
+        </ul>
+        <p class="tech-links"><a href="https://github.com/DoneelM/LakeBoard/blob/main/docs/decisions/0017-navigation-sub-menus.md">Decision 0017 ↗</a><a class="tech-back" href="../#card-nav-groups">← Back to the card</a></p>
+      </section>
+
       <section class="tech" id="agent-authoring" aria-labelledby="agent-authoring-title">
         <div class="tech-head"><p class="eyebrow">Build</p><span class="status status-progress">In progress</span></div>
         <h2 id="agent-authoring-title">Build with any coding agent</h2>
@@ -104,6 +133,7 @@ src/dashboards/my-dashboard/
         <h3>How it works</h3>
         <p><code>AGENTS.md</code> holds the repository rules and points every agent at two documents: <code>docs/DASHBOARD_WORKFLOW.md</code> (the steps) and <code>docs/AUTHORING.md</code> (the hosting contract and the <code>dash</code> and <code>kit</code> APIs). Claude Code’s <code>CLAUDE.md</code> and its <code>new-dashboard</code> skill link to the same files; Codex reads <code>AGENTS.md</code> directly; other tools can be asked to read it. Agent-specific entry points stay thin so the instructions don’t drift apart.</p>
         <p>Business authors can explore approved data and clarify metric definitions through Databricks Genie One MCP while they build, then hand over a branch or the folder. Serving a dashboard doesn’t need the agent or model that wrote it.</p>
+        <p>One rule matters most: <strong>keep the SQL, not the question</strong>. Every hosted number comes from a SQL file in the folder, and a page never asks Genie for its numbers. If a prototype used Genie, keep the SQL from Genie’s “Show code”. <code>docs/BUSINESS_AUTHORS.md</code> walks business authors through the repository route step by step, from branch to pull request.</p>
         <h3>Set it up</h3>
         <p>Open the repository in your coding tool and brief it. This prompt comes from the project README:</p>
         <pre class="tech-code" tabindex="0"><code>Read AGENTS.md and follow docs/DASHBOARD_WORKFLOW.md to build a LakeBoard dashboard.
@@ -166,6 +196,10 @@ locale: en-US          # how kit.fmt writes numbers and dates</code></pre>
         <h3>How it works</h3>
         <p>A dashboard with <code>page: artifact</code> sends its <code>index.html</code> byte for byte inside an inert <code>&lt;template&gt;</code>, so nothing runs early. <code>static/artifact.js</code> mounts it, points bare file names at the dashboard’s <code>assets/</code> folder and runs each script in page order inside its own function scope. <code>dash.js</code> adds the artifact runtime (<code>draw</code>, <code>loader</code>, <code>calc</code>), and the theme supplies the design tokens artifacts expect. Because there is no iframe, the page keeps the portal’s theme, dark mode, freshness label, Refresh, Ask Genie and security policy.</p>
         <p>Imports land as <code>status: draft</code>, visible only to <code>drafts_groups</code> and the dashboard’s own groups. A dataset without SQL yet is <code>todo: true</code>: never queried, warmed or looked up. A local run with <code>PORTAL_PREVIEW_SNAPSHOTS=1</code> serves its gitignored snapshot rows instead.</p>
+        <figure class="dg">
+          <div class="dg-flow"><div class="dg-node is-actor"><strong>Claude artifact</strong><span>a business user shares the link</span></div><div class="dg-arrow"></div><div class="dg-node is-app"><strong>import_artifact.py</strong><span>page unchanged · status: draft · todo datasets · gitignored snapshots</span></div><div class="dg-arrow"></div><div class="dg-node"><strong>Data team writes SQL</strong><span>one reviewed query per dataset, todo removed</span></div><div class="dg-arrow"></div><div class="dg-node"><strong>compare_snapshot.py</strong><span>results reconciled against the artifact’s own data</span></div><div class="dg-arrow"></div><div class="dg-node is-go"><strong>Review, then live</strong><span>approve.py records the page and shared SQL · draft status dropped · snapshots deleted</span></div></div>
+          <figcaption>From a shared link to a hosted dashboard. The page’s code is never rewritten; its data is.</figcaption>
+        </figure>
         <h3>Set it up</h3>
         <p>In Claude Code, the <code>import-claude-dashboard</code> skill runs these:</p>
         <pre class="tech-code" tabindex="0"><code>python scripts/import_artifact.py --bundle &lt;dir&gt; --slug &lt;slug&gt; --blobs &lt;dir&gt;
@@ -267,14 +301,15 @@ python scripts/pbip_summary.py &lt;path to .pbip or folder&gt;   # --json for JS
         <pre class="tech-code" tabindex="0"><code>datasets:
   suppliers:
     sql: sql/suppliers.sql
-    auth: app        # service principal; one shared result; no SQL parameters</code></pre>
+    auth: app        # service principal; one shared result; no SQL parameters
+    groups: [field-ops]   # required: the dashboard must list groups: too</code></pre>
         <pre class="tech-code" tabindex="0"><code># Prints the grants the service principal needs. --apply is for a person to run.
 python scripts/grant_app_access.py --env prod --profile &lt;profile&gt; --warehouse &lt;id&gt;</code></pre>
         <h3>Limits</h3>
         <ul class="tech-limits">
           <li>A workspace admin must switch on user authorization for apps.</li>
           <li>Every viewer needs <code>USE CATALOG</code>, <code>USE SCHEMA</code> and <code>SELECT</code> on what a default dataset reads. Missing grants show as “Couldn’t load this data”.</li>
-          <li><code>auth: app</code> datasets take no parameters, bypass viewer row-level security and rule out Ask Genie on that dashboard.</li>
+          <li><code>auth: app</code> datasets take no parameters, bypass viewer row-level security and rule out Ask Genie on that dashboard. The checks refuse one unless both the dashboard and the dataset name their <code>groups:</code>.</li>
           <li>Each environment’s service principal needs its own grants, and a view that is dropped and recreated loses them.</li>
         </ul>
         <p class="tech-links"><a href="https://github.com/DoneelM/LakeBoard/blob/main/docs/decisions/0002-queries-run-as-the-viewer.md">Decision 0002 ↗</a><a href="https://learn.microsoft.com/en-us/azure/databricks/dev-tools/databricks-apps/auth">Databricks Apps authorization ↗</a><a class="tech-back" href="../#card-viewer-auth">← Back to the card</a></p>
@@ -292,6 +327,10 @@ python scripts/grant_app_access.py --env prod --profile &lt;profile&gt; --wareho
           <tr><th scope="row">The data</th><td>Unity Catalog grants, row filters, column masks</td><td>Always applies, because queries run as the viewer</td></tr>
         </tbody></table></div>
         <p>Drafts add one more rule: a <code>status: draft</code> dashboard opens only for <code>drafts_groups</code> and its own groups. An empty list means nobody, never everyone.</p>
+        <figure class="dg">
+          <div class="dg-layers"><div class="dg-layer"><p class="dg-layer-name">Portal <code>CAN USE</code> via <code>viewers_group</code></p><div class="dg-layer"><p class="dg-layer-name">Dashboard <code>groups:</code> in dashboard.yml</p><div class="dg-layer"><p class="dg-layer-name">Dataset <code>groups:</code> on one dataset · <code>dash.allowed('id')</code></p></div></div></div><div class="dg-foundation"><strong>Unity Catalog</strong><span>grants, row filters and column masks, applied to every viewer query whatever the layers above allow</span></div></div>
+          <figcaption>Each layer narrows the one around it. Unity Catalog sits under all of them.</figcaption>
+        </figure>
         <h3>Set it up</h3>
         <pre class="tech-code" tabindex="0"><code>datasets:
   prices:
@@ -304,6 +343,7 @@ if (!dash.allowed('prices')) { /* don't draw the Prices tab */ }</code></pre>
         <ul class="tech-limits">
           <li>Portal groups control what a dashboard shows. For data that must be protected everywhere, also restrict it in Unity Catalog.</li>
           <li>Group names are workspace display names (account groups or groups synced from your identity provider).</li>
+          <li>Each person’s groups are cached for one minute, so a removed membership stops counting within about a minute, plus Databricks propagation time.</li>
         </ul>
         <p class="tech-links"><a href="https://github.com/DoneelM/LakeBoard/blob/main/docs/OPERATIONS.md#access">OPERATIONS.md: access ↗</a><a class="tech-back" href="../#card-access-layers">← Back to the card</a></p>
       </section>
@@ -313,7 +353,7 @@ if (!dash.allowed('prices')) { /* don't draw the Prices tab */ }</code></pre>
         <h2 id="safe-sql-title">Safe SQL by construction</h2>
         <p class="tech-summary">The rules are small, written down and checked by machine on every pull request.</p>
         <h3>How it works</h3>
-        <p><code>scripts/check.py --static</code> and <code>pytest</code> run on every pull request. They require one <code>SELECT</code> or <code>WITH</code> per file with no DDL or DML, every table written as <code>catalog.schema.table</code> in an allowed catalog, every <code>:name</code> declared under <code>params</code>, every <code>dash.data('id')</code> declared under <code>datasets</code>, no scripts from other sites, and section, environment and library names that exist in <code>src/environments.yml</code>. Each deploy also runs every dataset with <code>LIMIT 0</code> against that environment’s catalogs before anything changes. At run time a query is stopped after 10 minutes and results are capped at 500,000 rows.</p>
+        <p><code>scripts/check.py --static</code> and <code>pytest</code> run on every pull request. They require one <code>SELECT</code> or <code>WITH</code> per file with no DDL or DML, every table written as <code>catalog.schema.table</code> in an allowed catalog, every <code>:name</code> declared under <code>params</code>, every <code>dash.data('id')</code> declared under <code>datasets</code>, no scripts from other sites, section, environment and library names that exist in <code>src/environments.yml</code>, and a recorded review of each page and shared query (see <a href="#publishing-guards">reviewed before it runs</a>). The pull request checks run without workspace credentials. Each deploy also runs every dataset with <code>LIMIT 0</code> against that environment’s catalogs before anything changes. At run time a query is stopped after 10 minutes and results are capped at 500,000 rows.</p>
         <h3>Set it up</h3>
         <pre class="tech-code" tabindex="0"><code>-- sql/daily.sql: one row per pickup day
 SELECT DATE(tpep_pickup_datetime) AS day, COUNT(*) AS trips
@@ -364,7 +404,11 @@ image_hosts:
         <p class="tech-summary">Safe by default, faster where the data allows, and no database to run.</p>
         <h3>How it works</h3>
         <p>Results are cached in the app’s memory, keyed on dashboard, dataset, bound parameter values and the viewer (or the app). Each result is reused until its <code>cache_ttl</code> runs out (default one hour). The cache is per viewer by default, because queries run as the viewer.</p>
-        <p><code>cache: shared</code> keeps one result for everyone. Before serving it, LakeBoard asks the warehouse to analyse the complete bound query as the reader with <code>LIMIT 0</code>, so a reader without source access gets a 403, never rows. Allowed decisions are reused for five minutes and denials for one. <code>warm:</code> pre-loads listed parameter sets as the app at start-up and at the warm times (07:00 and 13:00 on weekdays by default, prod only); <code>warm_at: startup</code> loads once per process for data that never changes. <code>auth: app</code> datasets re-run in the background every <code>cache_ttl</code> minus five minutes.</p>
+        <p><code>cache: shared</code> keeps one result for everyone. Before serving it, LakeBoard asks the warehouse to analyse the complete bound query as the reader with <code>LIMIT 0</code>, so a reader without source access gets a 403, never rows. Decisions are remembered per viewer, warehouse, SQL text and parameter names and types, not filter values, so choosing a new filter value reuses the check. Allowed decisions last 30 minutes; denials, including “table not found”, last five. <code>warm:</code> pre-loads listed parameter sets as the app at start-up and at the warm times (07:00 and 13:00 on weekdays by default, prod only); <code>warm_at: startup</code> loads once per process for data that never changes. <code>auth: app</code> datasets re-run in the background every <code>cache_ttl</code> minus five minutes.</p>
+        <figure class="dg">
+          <ol class="dg-ladder"><li><div class="dg-q"><span>Is an access decision remembered for this viewer and query?</span></div><div class="dg-outs"><span class="dg-out is-go">Yes: use it</span><span class="dg-out">No: analyse the full query as the reader with LIMIT 0</span></div></li><li><div class="dg-q"><span>What did the check say?</span></div><div class="dg-outs"><span class="dg-out is-go">Allowed: remember 30 min</span><span class="dg-out is-stop">Denied or not found: 403, remember 5 min</span><span class="dg-out is-warn">Other error: 502, not remembered</span></div></li><li><div class="dg-q"><span>Is a shared result cached for these filter values?</span></div><div class="dg-outs"><span class="dg-out is-go">Yes: serve it</span><span class="dg-out">No: run the query and keep it for cache_ttl</span></div></li></ol>
+          <figcaption>What happens when someone opens a <code>cache: shared</code> dataset. No shared rows are served until the reader check passes.</figcaption>
+        </figure>
         <h3>Set it up</h3>
         <pre class="tech-code" tabindex="0"><code>datasets:
   daily:
@@ -384,7 +428,8 @@ warm:
           <li>The cache lives in memory: a deploy, restart or evening stop empties it, and it isn’t shared between app instances.</li>
           <li>Per-viewer caching runs the same query once per person per TTL.</li>
           <li>The reader check proves access, not that rows are identical. Use per-viewer caching wherever row filters or masks can differ.</li>
-          <li>A revoked grant can take up to five minutes to apply to shared results.</li>
+          <li>A revoked grant can take up to 30 minutes to apply to shared results, and a new grant up to five minutes after a denial. Use per-viewer caching where access must change sooner.</li>
+          <li>Every <code>cache: shared</code> query needs a recorded data-team review of its SQL (see <a href="#publishing-guards">reviewed before it runs</a>).</li>
         </ul>
         <p class="tech-links"><a href="https://github.com/DoneelM/LakeBoard/blob/main/docs/decisions/0003-caching-and-warming.md">Decision 0003 ↗</a><a href="https://github.com/DoneelM/LakeBoard/blob/main/docs/decisions/0013-platform-reliability.md">Decision 0013 ↗</a><a href="https://github.com/DoneelM/LakeBoard/blob/main/docs/OPERATIONS.md#how-data-refreshes">How data refreshes ↗</a><a class="tech-back" href="../#card-caching">← Back to the card</a></p>
       </section>
@@ -395,7 +440,11 @@ warm:
         <p class="tech-summary">Answers the real question before someone presses Refresh: will it show anything new?</p>
         <h3>How it works</h3>
         <p>The title bar shows <code>Data as of 10:42 am · 12 min ago</code>, using the <strong>oldest</strong> fetch time among the loaded datasets so a page never looks fresher than its stalest part. The panel shows, per dataset, when it was fetched, when the cached copy expires, how it is shared, an optional <code>source:</code> note and its source tables.</p>
-        <p><code>GET /api/d/&lt;slug&gt;/sources</code> reads Unity Catalog table metadata through the Tables API as the app’s service principal, which needs only <code>BROWSE</code>, so it costs no warehouse time. Views are followed to the tables underneath through a map built at deploy time (<code>scripts/build_sources_map.py</code>). If every source is older than the data on screen, the label adds “source unchanged”; if one is newer, “newer data available”. Each table gets a kind (managed, live, external, none, static or unknown) and the label only claims what it knows. <code>data_through</code> adds the latest date actually returned by the query.</p>
+        <p><code>GET /api/d/&lt;slug&gt;/sources</code> reads Unity Catalog table metadata through the Tables API as the app’s service principal, which needs only <code>BROWSE</code>, so it costs no warehouse time. Views are followed to the tables underneath through a map built at deploy time (<code>scripts/build_sources_map.py</code>). If every source is older than the data on screen, the label adds “source unchanged”; if one is newer, “newer data available”. A changed table says how long after your data it was written, for example “changed 5 min ago (10:42 am), 3 h after your data”, with changed tables listed first. Each table gets a kind (managed, live, external, none, static or unknown) and the label only claims what it knows. <code>data_through</code> adds the latest date actually returned by the query.</p>
+        <figure class="dg">
+          <div class="dg-flow"><div class="dg-node"><strong>Dataset SQL</strong><span>the tables it names, catalog already swapped</span></div><div class="dg-arrow"></div><div class="dg-node"><strong>Views followed</strong><span>through the deploy-time sources_map.json</span></div><div class="dg-arrow"></div><div class="dg-node is-sp"><strong>Table change times</strong><span>UC Tables API, as the app, BROWSE only</span></div><div class="dg-arrow"></div><div class="dg-node is-app"><strong>Compare</strong><span>with the oldest fetch time on the page</span></div></div><div class="dg-result"><span class="dg-result-label mono">Label adds</span><div class="dg-outs"><span class="dg-out is-go">source unchanged</span><span class="dg-out is-warn">newer data available</span><span class="dg-out">tracked sources unchanged (live tables present)</span><span class="dg-out is-muted">nothing, when any table is unknown</span></div></div>
+          <figcaption>No warehouse query is involved: the check reads metadata only, and says nothing rather than guess.</figcaption>
+        </figure>
         <h3>Set it up</h3>
         <pre class="tech-code" tabindex="0"><code>datasets:
   daily:
@@ -422,6 +471,10 @@ static_catalogs: [samples]</code></pre>
         <h3>How it works</h3>
         <p><strong>Refresh data</strong> reads fresh Unity Catalog metadata once for each distinct source of the loaded datasets and compares it with when each query began. Unchanged managed Delta tables and fixed samples revalidate the existing result through the usual access and TTL checks, with a body-free 304 on a matching cache hit. Anything LakeBoard can’t verify reruns: views, external and federated tables, missing metadata, time-dependent SQL and datasets marked <code>refresh: always</code>. <strong>Refresh all</strong> forces every loaded dataset to rerun.</p>
         <p>Every warehouse execution writes a <code>dataset_query</code> log event with the dashboard, dataset, Databricks statement ID, elapsed milliseconds and outcome. It omits SQL text, parameter values, rows and viewer identity.</p>
+        <figure class="dg">
+          <ol class="dg-ladder"><li><div class="dg-q"><span>Marked <code>refresh: always</code>, time-dependent SQL, or a view, external or federated input?</span></div><div class="dg-outs"><span class="dg-out is-warn">Yes: rerun</span><span class="dg-out">No: next check</span></div></li><li><div class="dg-q"><span>Is fresh metadata available for every direct source?</span></div><div class="dg-outs"><span class="dg-out is-warn">No: rerun</span><span class="dg-out">Yes: next check</span></div></li><li><div class="dg-q"><span>Was any source written after this query began?</span></div><div class="dg-outs"><span class="dg-out is-warn">Yes: rerun</span><span class="dg-out is-go">No: revalidate, 304 if the result is unchanged</span></div></li></ol>
+          <figcaption>What Refresh data decides for each loaded dataset. A missing or expired result always runs. Refresh all skips the checks and reruns everything loaded.</figcaption>
+        </figure>
         <h3>Set it up</h3>
         <pre class="tech-code" tabindex="0"><code>datasets:
   scores:
@@ -437,6 +490,7 @@ dash.refreshAll();      // force every loaded dataset</code></pre>
           <li>Metadata is a point-in-time check; it can’t prove a view’s definition or hidden inputs are unchanged, so views always rerun.</li>
           <li>No incremental edits to cached rows: a changed input reruns the whole dataset query.</li>
           <li>Refreshing a shared dataset replaces the result for everyone.</li>
+          <li>Refresh all does nothing while any query on the page is still running, and says so, so it never skips or duplicates a query.</li>
         </ul>
         <p class="tech-links"><a href="https://github.com/DoneelM/LakeBoard/blob/main/docs/decisions/0016-selective-refresh.md">Decision 0016 ↗</a><a href="https://github.com/DoneelM/LakeBoard/blob/main/docs/OPERATIONS.md#profile-a-slow-dataset">Profile a slow dataset ↗</a><a class="tech-back" href="../#card-selective-refresh">← Back to the card</a></p>
       </section>
@@ -447,6 +501,10 @@ dash.refreshAll();      // force every loaded dataset</code></pre>
         <p class="tech-summary">Plain-English questions answered by a curated Genie space, with the viewer’s access and the page’s filters.</p>
         <h3>How it works</h3>
         <p>A <code>genie:</code> block names a Genie space per environment. The portal’s backend calls the Genie Conversation API with the viewer’s token (the app’s <code>genie</code> user scope), never as the service principal, and refuses the bar on dashboards with <code>auth: app</code> data. Because the API has no context field, the server builds a short, capped plain-text preamble: the dashboard title, its <code>about</code> text, its SQL parameters and the current view from <code>dash.genieContext()</code>. It goes with the first question and again when the view changes. The page polls for the answer, then shows the text, up to 200 result rows and the SQL. Usage events record the dashboard and person, never the question.</p>
+        <figure class="dg">
+          <div class="dg-flow"><div class="dg-node is-actor"><strong>Viewer asks</strong><span>a question in the bar</span></div><div class="dg-arrow"></div><div class="dg-node is-app"><strong>Portal adds context</strong><span>title, about, SQL parameters and the filters on screen</span></div><div class="dg-arrow"><span>viewer token</span></div><div class="dg-node is-data"><strong>Genie Conversation API</strong><span>the curated space for this environment</span></div><div class="dg-arrow"></div><div class="dg-node"><strong>Page polls</strong><span>from 1.5 s, backing off to 5 s, up to 5 min</span></div><div class="dg-arrow"></div><div class="dg-node is-go"><strong>Answer</strong><span>text, up to 200 rows and the SQL</span></div></div>
+          <figcaption>Genie never runs as the app, so Unity Catalog row filters apply to its answers too.</figcaption>
+        </figure>
         <h3>Set it up</h3>
         <pre class="tech-code" tabindex="0"><code>genie:
   space_id: {prod: "0123456789abcdef0123456789abcdef"}   # no id = no bar there
@@ -471,7 +529,11 @@ dash.genieContext(() =&gt; ({ Period: 'January 2016', Borough: state.borough || 
         <p class="tech-summary">What was tested is what reaches prod, and the same SQL runs everywhere.</p>
         <h3>How it works</h3>
         <p><code>develop</code>, <code>release</code> and <code>main</code> deploy to dev, test and prod through the example GitHub Actions (<code>.github/workflows/deploy.yml</code>) or Azure DevOps (<code>azure-pipelines.yml</code>) pipelines. SQL is written with prod catalog names; the app works out its environment from the workspace host (or <code>PORTAL_ENV</code>) and swaps catalog names using <code>src/environments.yml</code>. One feature branch is opened as a pull request into each branch in turn, never merging <code>develop</code> back into it.</p>
-        <p>Every pull request runs the static checks and tests. A push runs every dataset with <code>LIMIT 0</code>, builds the source map, runs <code>databricks bundle deploy</code> and starts the app. Deploys to one environment queue one at a time.</p>
+        <p>Every pull request runs the static checks and tests with no workspace credentials. A push installs a pinned, checksum-verified Databricks CLI, runs <code>bundle validate</code>, runs every dataset with <code>LIMIT 0</code>, builds the source map, runs <code>databricks bundle deploy</code> and starts the app. Deploys to one environment queue one at a time.</p>
+        <figure class="dg">
+          <div class="dg-promo"><div class="dg-node is-actor"><strong>Feature branch</strong><span>cut from main</span></div><ol class="dg-promo-lanes"><li><span class="dg-step mono">PR 1</span><span class="dg-branch mono">develop</span><span class="dg-arrow"></span><div class="dg-node"><strong>dev</strong><span>lakeboard-dev · e.g. main_dev</span></div><span class="dg-note">stopped after deploy</span></li><li><span class="dg-step mono">PR 2</span><span class="dg-branch mono">release</span><span class="dg-arrow"></span><div class="dg-node"><strong>test</strong><span>lakeboard-test · e.g. main_test</span></div><span class="dg-note">stopped after deploy</span></li><li><span class="dg-step mono">PR 3</span><span class="dg-branch mono">main</span><span class="dg-arrow"></span><div class="dg-node is-go"><strong>prod</strong><span>lakeboard · e.g. main_prod</span></div><span class="dg-note">evening stop job you create</span></li></ol></div>
+          <figcaption>The same feature branch goes into each branch in turn, so prod gets exactly what test ran. SQL names the prod catalog; the app swaps it per environment.</figcaption>
+        </figure>
         <h3>Set it up</h3>
         <pre class="tech-code" tabindex="0"><code># src/environments.yml: prod SQL reads main_prod; dev and test are swapped
 catalogs:
@@ -492,6 +554,36 @@ environments: [dev, test]</code></pre>
           <li>CI doesn’t see the local override files; pipelines use their own variables.</li>
         </ul>
         <p class="tech-links"><a href="https://github.com/DoneelM/LakeBoard/blob/main/docs/decisions/0004-promotion-same-branch-to-each-environment.md">Decision 0004 ↗</a><a href="https://github.com/DoneelM/LakeBoard/blob/main/docs/decisions/0010-local-overrides-for-workspace-details.md">Decision 0010 ↗</a><a href="https://github.com/DoneelM/LakeBoard/blob/main/docs/PROMOTION.md">PROMOTION.md ↗</a><a class="tech-back" href="../#card-promotion">← Back to the card</a></p>
+      </section>
+
+      <section class="tech" id="publishing-guards" aria-labelledby="publishing-guards-title">
+        <div class="tech-head"><p class="eyebrow">Run and deliver</p><span class="status status-built">Built in</span></div>
+        <h2 id="publishing-guards-title">Reviewed before it runs</h2>
+        <p class="tech-summary">Business authors and coding agents can write dashboards, so the riskiest changes need a recorded review before the app will load them.</p>
+        <h3>How it works</h3>
+        <ul class="tech-limits tech-list">
+          <li><strong>Reviewed pages.</strong> Each dashboard’s <code>index.html</code>, and every file in an artifact page’s <code>assets/</code>, must match its SHA-256 in <code>src/reviewed_pages.yml</code>. The page’s JavaScript runs inside the portal, next to every other dashboard.</li>
+          <li><strong>Reviewed shared SQL.</strong> Each <code>cache: shared</code> query, and so every warmed one, must match its SHA-256 in <code>src/shared_cache.yml</code>. One result goes to every viewer, so a person checks there are no row filters, masks or <code>current_user()</code> behind it.</li>
+          <li><strong>Named audience for app data.</strong> An <code>auth: app</code> dataset is refused unless both the dashboard and the dataset list <code>groups:</code>.</li>
+          <li><strong>Credential-free pull request checks.</strong> Pipelines keep workspace credentials in deploy stages only, and install a pinned Databricks CLI after checking its SHA-256.</li>
+        </ul>
+        <p>The checks, the tests and the app all refuse an unreviewed dashboard. A local run still shows unreviewed work, with a warning, so authors can preview; a deployed app never does.</p>
+        <figure class="dg">
+          <div class="dg-flow"><div class="dg-node is-actor"><strong>Author or agent</strong><span>writes the dashboard folder</span></div><div class="dg-arrow"></div><div class="dg-node is-stop"><strong>Pull request checks</strong><span>no credentials · refuse an unreviewed page or shared SQL</span></div><div class="dg-arrow"></div><div class="dg-node is-app"><strong>Data team review</strong><span>reads the code, runs approve.py --write</span></div><div class="dg-arrow"></div><div class="dg-node"><strong>Deploy on merge</strong><span>pinned, checksum-verified CLI · LIMIT 0 · bundle deploy</span></div><div class="dg-arrow"></div><div class="dg-node is-go"><strong>App loads</strong><span>only pages and shared SQL whose digests match</span></div></div>
+          <figcaption>A digest ties each merge to the exact page and SQL a person read. Changing either needs a new review.</figcaption>
+        </figure>
+        <h3>Set it up</h3>
+        <pre class="tech-code" tabindex="0"><code>python scripts/approve.py &lt;slug&gt;            # print the digests
+python scripts/approve.py &lt;slug&gt; --write    # record them, in the same pull request</code></pre>
+        <p>Make the data team required reviewers for <code>src/reviewed_pages.yml</code>, <code>src/shared_cache.yml</code> and <code>src/static/</code> (CODEOWNERS on GitHub, required reviewers by path on Azure DevOps), so an author can’t approve their own page.</p>
+        <h3>Limits</h3>
+        <ul class="tech-limits">
+          <li>A digest records that a version was approved, not that the review was good. Approved JavaScript still runs in the portal’s origin.</li>
+          <li>The approval files need reviewer rules outside the repository; without them an author could approve their own page.</li>
+          <li>The CLI is pinned, but Python dependencies aren’t locked, and there is no SBOM or vulnerability scan.</li>
+          <li>Changing a sample dashboard now also means updating the approval files.</li>
+        </ul>
+        <p class="tech-links"><a href="https://github.com/DoneelM/LakeBoard/blob/main/docs/decisions/0018-publishing-guards.md">Decision 0018 ↗</a><a href="https://github.com/DoneelM/LakeBoard/blob/main/docs/AUTHORING.md#reviews-the-data-team-records">AUTHORING.md: reviews ↗</a><a class="tech-back" href="../#card-publishing-guards">← Back to the card</a></p>
       </section>
 
       <section class="tech" id="cost-controls" aria-labelledby="cost-controls-title">

@@ -72,3 +72,10 @@ Add weekday 08:00–18:00 operation, Databricks Jobs start/stop patterns and dev
 ## 23 November update: features overview and drill-through
 
 User steering: add a page giving a high-level overview of the features already implemented, with a drill-through or second page for technical detail. Added `features/` (18 feature cards in four groups, a status key and a "What it doesn't do" list) and `features/how-it-works/` (one section per card: how it works, set it up, limits, decision record link, back to the card). Content is drawn from the LakeBoard README, DESIGN, AUTHORING, OPERATIONS and decision records 0001 to 0016; statuses follow those records, so agent-independent authoring shows "In progress" and the prod evening stop shows "You set it up". Both pages are static, outside the scroll story, and use no Scroll Craft runtime.
+
+
+## 24 November update: diagrams and new LakeBoard features
+
+User steering: confirm the live deploy, check the LakeBoard repository for new features, and use diagrams to explain the technical page better. The live pages matched the `main` build byte for byte. LakeBoard had merged navigation sub-menus (decision 0017) and publishing guards (0018), and changed the shared access-check memory to 30 minutes allowed and 5 minutes denied (0013), which corrected a figure this page had published. Two cards and sections were added (20 in total), and other sections were updated for credential-free PR checks, the pinned CLI, required `groups:` on `auth: app`, the one-minute identity cache, the "keep the SQL" authoring rule and refresh follow-ups.
+
+Ten diagrams were added where a mechanism is the point: request path, navigation mock, artifact import, access layers, shared-cache decisions, freshness, selective refresh, Ask Genie, promotion and publishing guards. They are HTML, not images, so text stays readable and in reading order, and container queries switch each one between horizontal and vertical layouts from its own width. Sections where a picture adds nothing (page kit, phone layout, samples, SQL rules, CSP, Power BI helpers, stopping apps, health) keep text only.
