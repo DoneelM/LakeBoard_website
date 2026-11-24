@@ -109,9 +109,9 @@ src/dashboards/my-dashboard/
         <p class="tech-summary">Related dashboards sit together under one collapsible heading, without adding a portal-wide section.</p>
         <h3>How it works</h3>
         <p>A dashboard can set an optional <code>group:</code> in <code>dashboard.yml</code>. Dashboards in the same section with the same group are listed under one heading, indented with an accent bar, placed where the group’s first dashboard (by <code>order</code>) would be. The heading is a <code>&lt;details open&gt;</code> element: expanded by default, no script, and it works from the keyboard. Home-page cards stay flat.</p>
-        <figure class="dg">
-          <div class="dg-navmock" aria-label="Example left navigation"><p class="dg-nav-section">Travel</p><p class="dg-nav-item">Travel Operations</p><div class="dg-nav-group"><p class="dg-nav-head">▾ Trip Reports <code>group: Trip Reports</code></p><p class="dg-nav-item">Bookings by month</p><p class="dg-nav-item">Cancellations</p><p class="dg-nav-item">Property drill-down</p></div><p class="dg-nav-item">Travel Marketplace</p></div>
-          <figcaption>An illustration, not a screenshot: three dashboards in the Travel section share <code>group: Trip Reports</code>, so they sit under one heading, placed where the first of them would be.</figcaption>
+        <figure class="tech-capture">
+          <a href="../../assets/nav-sub-menu.jpg"><img src="../../assets/nav-sub-menu.jpg" width="236" height="266" loading="lazy" alt="LakeBoard's left navigation in dark mode. The Travel section lists Travel Operations, then an expanded Detailed reports heading with Travel Marketplace and Guest Experience indented beneath it behind an accent bar, Guest Experience highlighted as the current page. The Retail section follows."></a>
+          <figcaption>Captured from the LakeBoard app running locally, with no workspace connected. For this capture, Travel Marketplace and Guest Experience were given <code>group: Detailed reports</code>; the public samples don’t set a group.</figcaption>
         </figure>
         <h3>Set it up</h3>
         <pre class="tech-code" tabindex="0"><code>section: Travel
