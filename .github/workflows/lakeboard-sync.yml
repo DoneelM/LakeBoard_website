@@ -1,0 +1,25 @@
+name: LakeBoard sync
+# Goes red when LakeBoard's decision records have changed since the features
+# pages were last checked against them. It is a warning, not a gate: it never
+# blocks the Pages deploy. The daily run catches changes between site edits.
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  schedule:
+    - cron: '17 19 * * *'   # 19:17 UTC, early morning in New Zealand
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  decisions:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+          package-manager-cache: false
+      - name: Compare with LakeBoard decision records
+        run: npm run sync:check

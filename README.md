@@ -16,6 +16,19 @@ the configuration and commands, the limits and the decision record behind it. Bo
 pages are static HTML. `npm run check` fails if a card and a technical section stop
 matching one to one.
 
+### Keeping them in sync with LakeBoard
+
+The **LakeBoard sync** workflow (`.github/workflows/lakeboard-sync.yml`) runs on
+every pull request, on pushes to `main` and once a day. It compares a fingerprint
+of every LakeBoard decision record with `docs/lakeboard-decisions.json`, the set
+the features pages were last checked against. A new, edited or removed record turns
+it red and lists the records, so stale claims surface even when nobody edits this
+site. It never blocks the Pages deploy.
+
+When it goes red: read the listed records, update `src/features/`, then run
+`npm run sync:update` and commit `docs/lakeboard-decisions.json` with the changes.
+`npm run sync:check` runs the same comparison locally.
+
 ## Agent mode
 
 Use the Human / Agent control in the site header to open the Markdown brief. The

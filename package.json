@@ -8,7 +8,9 @@
     "build": "node scripts/build.mjs",
     "check": "node scripts/check.mjs",
     "dev": "node scripts/serve.mjs",
-    "test": "node --test tests/*.test.mjs"
+    "test": "node --test tests/*.test.mjs",
+    "sync:check": "node scripts/lakeboard-sync.mjs",
+    "sync:update": "node scripts/lakeboard-sync.mjs --update"
   },
   "engines": {
     "node": ">=22"
