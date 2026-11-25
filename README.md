@@ -50,6 +50,10 @@ npm run dev
 
 Open the printed URL, which includes the GitHub Pages project path. After editing `src/`, rebuild and refresh.
 
+### Lighthouse CI
+
+Pull requests run Lighthouse (mobile and desktop, median of 3 runs) against the built home, agent, features and how-it-works pages. It fails below 0.8 performance, 0.95 accessibility, best practices or SEO, or above 0.1 cumulative layout shift, and warns when largest contentful paint passes 4.5 s. The budgets sit just under local measurements (Lighthouse 13.6): mobile performance 89–91 on the home page and 99–100 elsewhere, desktop 100, accessibility 97–100, best practices and SEO 100, layout shift ≤0.001, mobile home LCP 3.5 s. Results are not uploaded anywhere. To run it locally (needs Chrome), run `npm run build` then `npx @lhci/cli@0.16.1 autorun`; add `--collect.settings.preset=desktop` for desktop.
+
 ## Publication
 
 This public repository uses free GitHub Pages. `.github/workflows/pages.yml` checks and builds pull requests, then deploys pushes to `main` using the Pages artifact workflow. In repository Settings → Pages, the source is **GitHub Actions**. Subsequent updates should use a feature branch and pull request.
