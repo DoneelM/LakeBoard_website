@@ -384,7 +384,7 @@ python scripts/check.py --env dev --profile &lt;profile&gt; --warehouse &lt;id&g
         <h2 id="csp-title">Pages can’t call out</h2>
         <p class="tech-summary">A restrictive Content-Security-Policy tells the browser to block requests to sites the portal hasn’t listed, so “don’t send data elsewhere” is enforced by the browser as well as by the rule.</p>
         <h3>How it works</h3>
-        <p>Every response carries a Content-Security-Policy starting with <code>default-src 'self'</code>. The browser loads scripts and data only from the portal, plus Google Fonts and the image hosts listed in <code>src/environments.yml</code> (OpenStreetMap tiles by default). The static checks also reject <code>&lt;script src="https://…"&gt;</code>. <code>kit.h</code> always inserts values as text, never as HTML, and Ask Genie answers are shown as text only.</p>
+        <p>Every response carries a Content-Security-Policy starting with <code>default-src 'self'</code>. The browser loads scripts and data only from the portal, plus the image hosts listed in <code>src/environments.yml</code> (OpenStreetMap tiles by default). The current design self-hosts Inter with the app, so Google Fonts are not required. The static checks also reject <code>&lt;script src="https://…"&gt;</code>. <code>kit.h</code> always inserts values as text, never as HTML, and Ask Genie answers are shown as text only.</p>
         <h3>Set it up</h3>
         <pre class="tech-code" tabindex="0"><code># src/environments.yml
 libs:
