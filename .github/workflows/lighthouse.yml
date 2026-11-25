@@ -21,5 +21,23 @@ jobs:
         run: npm run build
       - name: Lighthouse (mobile)
         run: npx --yes @lhci/cli@0.16.1 autorun
+      # Keep reports after a failure so a CI-only shift can be inspected.
+      - name: Upload mobile reports
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: lighthouse-mobile
+          path: .lighthouseci
+          retention-days: 7
+          if-no-files-found: ignore
       - name: Lighthouse (desktop)
+        if: ${{ !cancelled() }}
         run: npx --yes @lhci/cli@0.16.1 autorun --collect.settings.preset=desktop
+      - name: Upload desktop reports
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: lighthouse-desktop
+          path: .lighthouseci
+          retention-days: 7
+          if-no-files-found: ignore
