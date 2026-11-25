@@ -3173,6 +3173,11 @@ h1, h2, h3 {
   color: var(--sc-accent);
   font: 600 13px var(--sc-font-text);
 }
+/* copy.js un-hides this on load; reserve its space so the toolbar does not wrap and shift the page */
+.agent-copy[hidden] {
+  display: inline-block;
+  visibility: hidden;
+}
 .agent-copy:hover {
   background: #1b3943;
 }
