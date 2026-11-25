@@ -23,7 +23,7 @@
     galleryImage.src = `./assets/${slug}.jpg`;
     galleryImage.alt = `${name} dashboard. ${description}`;
     $('#gallery-open').href = galleryImage.src;
-    $('#gallery-open').setAttribute('aria-label', `Enlarge ${name} screenshot`);
+    $('#gallery-open').setAttribute('aria-label', `Enlarge capture: ${name} dashboard`);
     $('#gallery-name').textContent = name;
     $('#gallery-description').textContent = description;
   }));
