@@ -54,7 +54,7 @@ Open the printed URL, which includes the GitHub Pages project path. After editin
 
 This public repository uses free GitHub Pages. `.github/workflows/pages.yml` checks and builds pull requests, then deploys pushes to `main` using the Pages artifact workflow. In repository Settings → Pages, the source is **GitHub Actions**. Subsequent updates should use a feature branch and pull request.
 
-All asset paths are relative. There is no framework, dependency install, external font service, analytics or backend. Fonts are self-hosted. The dark/cyan visual identity follows the creator’s [aiagents.nz](https://aiagents.nz/) portfolio. The public site publishes `dist/`, built from `src/` and the generated Agent brief.
+All asset paths are relative, except `404.html`, which uses absolute `/LakeBoard_website/` paths because Pages serves it at any depth. Every page carries a strict meta Content-Security-Policy (no inline script or style), so the no-JavaScript fallback styles live in `src/noscript.css`. There is no framework, dependency install, external font service, analytics or backend. Fonts are self-hosted. The dark/cyan visual identity follows the creator’s [aiagents.nz](https://aiagents.nz/) portfolio. The public site publishes `dist/`, built from `src/` and the generated Agent brief.
 
 ## Design and verification
 
