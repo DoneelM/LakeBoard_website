@@ -1,6 +1,6 @@
 # Cost and governance examples
 
-Requested scenario: 50 dashboards, Azure Australia East, prices in USD, one non-leap year of continuous operation (8,760 hours). Public list-price estimates checked on 18 November 2026 (Pacific/Auckland), before tax, discounts and customer-specific commitments. This is a worked model, not a claim that the pilot has measured these savings or benchmarked 50 dashboards on Medium.
+Requested scenario: 50 dashboards, Azure Australia East, prices in USD, one non-leap year of continuous operation (8,760 hours). Public list-price estimates checked on 26 November 2026 (Pacific/Auckland), before tax, discounts and customer-specific commitments. This is a worked model, not a claim that the pilot has measured these savings or benchmarked 50 dashboards on Medium.
 
 ## Price evidence
 
@@ -70,7 +70,7 @@ This is an advisory signal. Metadata caches and polling can lag changes. Refresh
 
 ## Size the shared host, or split by department
 
-[Official Azure Databricks sizes](https://learn.microsoft.com/en-us/azure/databricks/dev-tools/databricks-apps/compute-size), checked 18 November 2026:
+[Official Azure Databricks sizes](https://learn.microsoft.com/en-us/azure/databricks/dev-tools/databricks-apps/compute-size), checked 26 November 2026:
 
 | One instance | Memory | CPU (up to) | DBU/hour | Annual app hosting at $1/DBU, 24/7 |
 | --- | ---: | ---: | ---: | ---: |
