@@ -456,9 +456,9 @@ em {
   font-weight:600;
   border-bottom:1px solid #2a3d49
 }
-/* Text stays transparent until the host is half faded in, so axe never samples it at ~1:1 contrast */
+/* 0 or 1 only, set by app.js when the host is fully faded in. Mid-fade text was below 4.5:1. Default 1 so no-JS still shows it. */
 .host-label, .host-tabs {
-  opacity:clamp(0, calc((var(--host-opacity, 1) - .5) * 2), 1)
+  opacity: var(--host-text, 1);
 }
 .host-env {
   margin-left:auto;

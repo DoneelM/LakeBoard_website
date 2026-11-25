@@ -104,6 +104,7 @@
       card.style.transform = `translate3d(${values[0]}px,${values[1]}px,0) rotate(${values[2]}deg) scale(${values[3]})`;
     });
     assembly.style.setProperty('--host-opacity', String(.08 + .92 * t));
+    assembly.style.setProperty('--host-text', t >= 1 ? '1' : '0');
     assembly.style.setProperty('--label-opacity', String(Math.max(0, 1 - t * 1.8)));
     $('.assembly-state').textContent = t > .9 ? 'One app / many dashboards' : 'Separate folders → shared host';
   }
