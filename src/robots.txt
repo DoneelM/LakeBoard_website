@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://doneelm.github.io/LakeBoard_website/sitemap.xml

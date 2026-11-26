@@ -49,6 +49,18 @@ for (const id of sections) {
   assert.ok(details.includes(`href="../#card-${id}"`), `Technical section ${id} needs a link back to its card`);
   assert.ok(pageIds.get('features/index.html').includes(`card-${id}`), `Card id missing for ${id}`);
 }
+// 404.html is outside `pages` on purpose: it uses absolute project paths so it works at any depth.
+sources.set('404.html', await readFile(`${root}/404.html`, 'utf8'));
+for (const [page, text] of sources) {
+  const csp = text.match(/http-equiv="Content-Security-Policy" content="([^"]+)"/)?.[1];
+  assert.ok(csp, `Missing Content-Security-Policy meta in ${page}`);
+  assert.ok(!/unsafe-(inline|eval)/.test(csp), `CSP must not allow unsafe-inline or unsafe-eval in ${page}`);
+}
+const canonicals = pages.map((page) => sources.get(page).match(/rel="canonical" href="([^"]+)"/)[1]);
+const locs = [...(await readFile(`${root}/sitemap.xml`, 'utf8')).matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
+assert.deepEqual(locs.sort(), canonicals.sort(), 'sitemap.xml must list exactly the canonical page URLs');
+await stat(`${root}/robots.txt`);
+for (const tag of ['og:title', 'og:image', 'twitter:card']) assert.ok(sources.get('agent/index.html').includes(`"${tag}"`), `Agent page needs ${tag}`);
 const ids = pageIds.get('index.html');
 for (const match of html.matchAll(/data-dashboard="([^"]+)"/g)) {
   assert.ok(js.includes(`'${match[1]}'`), `Gallery entry missing: ${match[1]}`);
