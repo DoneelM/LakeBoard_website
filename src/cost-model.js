@@ -1,4 +1,4 @@
-// Public list-price snapshot, 18 November 2026 (NZ), Azure Australia East, USD.
+// Public list-price snapshot, 26 November 2026 (NZ), Azure Australia East, USD.
 // Source meter records and query URLs: ../docs/pricing-snapshot.json.
 export const PRICING = Object.freeze({
   hoursPerYear: 8760,

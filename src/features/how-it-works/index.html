@@ -15,6 +15,8 @@
   <meta property="og:image" content="https://doneelm.github.io/LakeBoard_website/assets/social-preview.jpg">
   <meta property="og:image:alt" content="LakeBoard showcase with actual dashboard screenshots and the headline Many dashboards. One shared app.">
   <meta name="twitter:card" content="summary_large_image">
+  <link rel="preload" href="../../assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../../assets/fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="icon" href="../../assets/logo.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../../vendor/scrollcraft.css">
   <link rel="stylesheet" href="../../styles.css">
@@ -380,9 +382,9 @@ python scripts/check.py --env dev --profile &lt;profile&gt; --warehouse &lt;id&g
       <section class="tech" id="csp" aria-labelledby="csp-title">
         <div class="tech-head"><p class="eyebrow">Govern</p><span class="status status-built">Built in</span></div>
         <h2 id="csp-title">Pages can’t call out</h2>
-        <p class="tech-summary">A strict Content-Security-Policy turns “don’t send data elsewhere” from a rule into a browser guarantee.</p>
+        <p class="tech-summary">A restrictive Content-Security-Policy tells the browser to block requests to sites the portal hasn’t listed, so “don’t send data elsewhere” is enforced by the browser as well as by the rule.</p>
         <h3>How it works</h3>
-        <p>Every response carries a Content-Security-Policy starting with <code>default-src 'self'</code>. The browser loads scripts and data only from the portal, plus Google Fonts and the image hosts listed in <code>src/environments.yml</code> (OpenStreetMap tiles by default). The static checks also reject <code>&lt;script src="https://…"&gt;</code>. <code>kit.h</code> always inserts values as text, never as HTML, and Ask Genie answers are shown as text only.</p>
+        <p>Every response carries a Content-Security-Policy starting with <code>default-src 'self'</code>. The browser loads scripts and data only from the portal, plus the image hosts listed in <code>src/environments.yml</code> (OpenStreetMap tiles by default). The current design self-hosts Inter with the app, so Google Fonts are not required. The static checks also reject <code>&lt;script src="https://…"&gt;</code>. <code>kit.h</code> always inserts values as text, never as HTML, and Ask Genie answers are shown as text only.</p>
         <h3>Set it up</h3>
         <pre class="tech-code" tabindex="0"><code># src/environments.yml
 libs:
@@ -394,6 +396,7 @@ image_hosts:
         <h3>Limits</h3>
         <ul class="tech-limits">
           <li>Every library must be bundled under <code>src/static/vendor</code> and added by whoever runs the portal.</li>
+          <li>The policy limits where pages may load code from and send data to. It is one layer of defence, not a promise: the portal still allows inline scripts and styles, so it does not make script injection impossible.</li>
           <li>If a network blocks the tile host, map tiles don’t appear; the points still plot.</li>
         </ul>
         <p class="tech-links"><a href="https://github.com/DoneelM/LakeBoard/blob/main/docs/DESIGN.md#security-model">DESIGN.md: security model ↗</a><a class="tech-back" href="../#card-csp">← Back to the card</a></p>

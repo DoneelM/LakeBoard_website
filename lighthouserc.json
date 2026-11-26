@@ -1,0 +1,27 @@
+{
+  "ci": {
+    "collect": {
+      "numberOfRuns": 3,
+      "startServerCommand": "PORT=4173 node scripts/serve.mjs",
+      "startServerReadyPattern": "Local:",
+      "url": [
+        "http://127.0.0.1:4173/LakeBoard_website/",
+        "http://127.0.0.1:4173/LakeBoard_website/agent/",
+        "http://127.0.0.1:4173/LakeBoard_website/features/",
+        "http://127.0.0.1:4173/LakeBoard_website/features/how-it-works/"
+      ],
+      "settings": { "chromeFlags": "--no-sandbox" }
+    },
+    "assert": {
+      "aggregationMethod": "median-run",
+      "assertions": {
+        "categories:performance": ["error", { "minScore": 0.8 }],
+        "categories:accessibility": ["error", { "minScore": 0.95 }],
+        "categories:best-practices": ["error", { "minScore": 0.95 }],
+        "categories:seo": ["error", { "minScore": 0.95 }],
+        "cumulative-layout-shift": ["error", { "maxNumericValue": 0.1 }],
+        "largest-contentful-paint": ["warn", { "maxNumericValue": 4500 }]
+      }
+    }
+  }
+}

@@ -2765,14 +2765,14 @@ html.no-motion {
   font-family: Inter;
   font-style: normal;
   font-weight: 400 800;
-  font-display: swap;
+  font-display: optional;
   src: url('./assets/fonts/inter-latin.woff2') format('woff2');
 }
 @font-face {
   font-family: 'Plus Jakarta Sans';
   font-style: normal;
   font-weight: 400 800;
-  font-display: swap;
+  font-display: optional;
   src: url('./assets/fonts/plus-jakarta-sans-latin.woff2') format('woff2');
 }
 :root {
