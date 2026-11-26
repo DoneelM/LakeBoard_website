@@ -23,7 +23,7 @@
     galleryImage.src = `./assets/${slug}.jpg`;
     galleryImage.alt = `${name} dashboard. ${description}`;
     $('#gallery-open').href = galleryImage.src;
-    $('#gallery-open').setAttribute('aria-label', `Enlarge ${name} screenshot`);
+    $('#gallery-open').setAttribute('aria-label', `Enlarge capture: ${name} dashboard`);
     $('#gallery-name').textContent = name;
     $('#gallery-description').textContent = description;
   }));
@@ -51,8 +51,8 @@
     opener = event.currentTarget;
     const img = opener.querySelector('img');
     $('#capture-title').textContent = opener.dataset.enlarge || $('#gallery-name').textContent;
-    $('#dialog-image').src = img.src;
-    $('#dialog-image').alt = img.alt;
+    $('#dialog-image').src = img?.src || opener.href;
+    $('#dialog-image').alt = img?.alt || opener.dataset.enlarge || 'LakeBoard product capture';
     document.body.classList.add('dialog-open');
     dialog.showModal();
   }
@@ -104,6 +104,7 @@
       card.style.transform = `translate3d(${values[0]}px,${values[1]}px,0) rotate(${values[2]}deg) scale(${values[3]})`;
     });
     assembly.style.setProperty('--host-opacity', String(.08 + .92 * t));
+    assembly.style.setProperty('--host-text', t >= 1 ? '1' : '0');
     assembly.style.setProperty('--label-opacity', String(Math.max(0, 1 - t * 1.8)));
     $('.assembly-state').textContent = t > .9 ? 'One app / many dashboards' : 'Separate folders → shared host';
   }

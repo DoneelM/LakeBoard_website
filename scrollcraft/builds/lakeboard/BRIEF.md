@@ -62,3 +62,24 @@ User steering: “say 50 dashboards, quote in usd”; show both PAYG and 1-year 
 The story now inserts a sourced capacity table and useful dashboard-count control after the gallery, then an identity/caching explanation before the freshness evidence. The shared-host assembly remains the only pin and the signature. The prices are public regional estimates, not measured pilot savings. The refresh evidence is cropped to one complete dataset and its expanded source table; prose explains the advisory change signal rather than claiming refresh is disabled.
 
 Additional user steering: explain Medium's CPU/memory headroom, Large/XLarge sizing, and separate Sales/Marketing/Finance/Operations apps sharing UC governance. Added a size/resource/cost table and department-to-UC diagram. The default single shared host remains the cost calculator's explicit assumption; the department option has its own four-Medium-app annual figure. XLarge availability is conditional.
+
+
+## Further user steering: business hours and portfolio identity
+
+Add weekday 08:00–18:00 operation, Databricks Jobs start/stop patterns and dev/test cleanup after checks. Use a transparent 52-week estimate (2,600 hours/year), keeping existing warehouse spend common to the baseline. User explicitly requested matching aiagents.nz instead of light/dark alternation, fresh refresh screenshots, and an independent sub-agent score with revision until above 8/10. The revised visual contract uses one #06080C canvas, #0E121A surfaces, cyan #00F2FE and teal #00D2B4, Plus Jakarta Sans headings and Inter body text. The actual product captures retain their real app styling. No portfolio outcome claims were copied into LakeBoard.
+
+
+## 23 November update: features overview and drill-through
+
+User steering: add a page giving a high-level overview of the features already implemented, with a drill-through or second page for technical detail. Added `features/` (18 feature cards in four groups, a status key and a "What it doesn't do" list) and `features/how-it-works/` (one section per card: how it works, set it up, limits, decision record link, back to the card). Content is drawn from the LakeBoard README, DESIGN, AUTHORING, OPERATIONS and decision records 0001 to 0016; statuses follow those records, so agent-independent authoring shows "In progress" and the prod evening stop shows "You set it up". Both pages are static, outside the scroll story, and use no Scroll Craft runtime.
+
+
+## 24 November update: diagrams and new LakeBoard features
+
+User steering: confirm the live deploy, check the LakeBoard repository for new features, and use diagrams to explain the technical page better. The live pages matched the `main` build byte for byte. LakeBoard had merged navigation sub-menus (decision 0017) and publishing guards (0018), and changed the shared access-check memory to 30 minutes allowed and 5 minutes denied (0013), which corrected a figure this page had published. Two cards and sections were added (20 in total), and other sections were updated for credential-free PR checks, the pinned CLI, required `groups:` on `auth: app`, the one-minute identity cache, the "keep the SQL" authoring rule and refresh follow-ups.
+
+Ten diagrams were added where a mechanism is the point: request path, navigation mock, artifact import, access layers, shared-cache decisions, freshness, selective refresh, Ask Genie, promotion and publishing guards. They are HTML, not images, so text stays readable and in reading order, and container queries switch each one between horizontal and vertical layouts from its own width. Sections where a picture adds nothing (page kit, phone layout, samples, SQL rules, CSP, Power BI helpers, stopping apps, health) keep text only.
+
+## 24 November: real navigation capture
+
+User steering: replace the drawn navigation mock with a real screenshot. Captured from the LakeBoard app (`src/app.py`, `kit.css`) running locally with a stand-in viewer, as the project's tests do, and no workspace connected. Travel Marketplace and Guest Experience were given `group: Detailed reports` in a throwaway copy for the capture only; the caption says so, because the public samples set no group. Cropped to the Travel and Retail sections, which keeps out the signed-in email in the navigation footer.

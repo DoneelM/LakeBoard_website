@@ -1,5 +1,5 @@
 {
-  "verifiedDateNZ": "2026-11-18",
+  "verifiedDateNZ": "2026-11-26",
   "currency": "USD",
   "region": "australiaeast",
   "sources": {
@@ -12,7 +12,8 @@
     "Databricks Apps pricing page was also checked in the browser with Azure Premium and Australia East selected: USD 1.00/DBU. Its FAQ maps Apps usage to All-Purpose Serverless or Interactive Serverless.",
     "Reservation retailPrice is the full 1-year price per CU, not a CU-hour rate despite unitOfMeasure. Multiply by capacity units only.",
     "Medium consumption is 0.5 DBU/hour for one running instance.",
-    "These are public list prices, not customer billing or contractual rates."
+    "These are public list prices, not customer billing or contractual rates.",
+    "2026-11-26: the three meter records were re-fetched from the Azure Retail Prices API and are unchanged; Medium = 0.5 DBU/hour was re-read on Microsoft Learn. The Databricks Apps pricing page renders its prices with JavaScript, so its USD 1.00/DBU figure was not re-read; the Azure meter above is the source used."
   ],
   "meters": [
     {
