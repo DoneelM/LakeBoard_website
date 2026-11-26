@@ -456,6 +456,10 @@ em {
   font-weight:600;
   border-bottom:1px solid #2a3d49
 }
+/* 0 or 1 only, set by app.js when the host is fully faded in. Mid-fade text was below 4.5:1. Default 1 so no-JS still shows it. */
+.host-label, .host-tabs {
+  opacity: var(--host-text, 1);
+}
 .host-env {
   margin-left:auto;
   font-size:9px;
@@ -3168,6 +3172,11 @@ h1, h2, h3 {
   background: #112c35;
   color: var(--sc-accent);
   font: 600 13px var(--sc-font-text);
+}
+/* copy.js un-hides this on load; reserve its space so the toolbar does not wrap and shift the page */
+.agent-copy[hidden] {
+  display: inline-block;
+  visibility: hidden;
 }
 .agent-copy:hover {
   background: #1b3943;
